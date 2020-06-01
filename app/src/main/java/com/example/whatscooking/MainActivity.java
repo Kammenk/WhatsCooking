@@ -26,14 +26,11 @@ public class MainActivity extends AppCompatActivity {
         setRandomBackground();
         switchActivity();
 
-
-
-
     }
 
     public void switchActivity(){
         Timer timer = new Timer();
-        int delay = 5000;
+        int delay = 3000;
 
         timer.schedule(new TimerTask() {
             @Override

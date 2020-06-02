@@ -9,7 +9,7 @@ import retrofit2.http.Query;
 public interface JsonPlaceHolderApi {
 
     @GET("search")
-    Call<List<Post>> getPosts(
+    Call<Post> getPosts(
             @Query("q") String keyWord,
             @Query("app_id") String appId,
             @Query("app_key") String appKey

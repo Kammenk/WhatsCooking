@@ -7,27 +7,30 @@
     tools:context=".FoodActivity">
 
 <FrameLayout
+
     android:id="@+id/fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_above="@id/bot_nav"
     >
 
+
 </FrameLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        >-->
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            >
-        </androidx.recyclerview.widget.RecyclerView>
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/recyclerView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:scrollbars="vertical"-->
+<!--            >-->
+<!--        </androidx.recyclerview.widget.RecyclerView>-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -35,6 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_navigation"/>
+        app:menu="@menu/bottom_navigation"
+        android:background="@drawable/menu_bg"/>
 
 </RelativeLayout>

@@ -3,4 +3,6 @@
     <color name="colorPrimary">#E60716</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="appBGColor">#EFEFEF</color>
+    <color name="titleBGColor">#FFFFFF</color>
 </resources>

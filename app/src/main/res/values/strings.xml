@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">WhatsCooking</string>
+    <string name="home_title">Today\'s recommendations...</string>
 </resources>

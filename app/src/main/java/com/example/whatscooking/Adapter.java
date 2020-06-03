@@ -43,7 +43,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         holder.mGridTitle.setText(title);
         holder.mGridQuantity.setText("Quantity: " + quantity);
         holder.mGridCalories.setText("Calories: " + calories);
-        Picasso.get().load(imageUrl).into(holder.mGridImage);
+        Picasso.get().load(imageUrl).fit().centerInside().into(holder.mGridImage);
     }
 
     @Override
@@ -51,13 +51,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         return mGridList.size();
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView mGridImage;
         public TextView mGridTitle;
         public TextView mGridQuantity;
         public TextView mGridCalories;
-
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -36,7 +36,7 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private Adapter adapter;
-    private ArrayList<GridItem> gritList;
+    private ArrayList<GridItem> gridList;
     RecyclerView.LayoutManager layoutManager;
 
     @Nullable
@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.recyclerView);
         layoutManager =  new GridLayoutManager(getActivity(),2,GridLayoutManager.VERTICAL,false); //new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        gritList = new ArrayList<>();
+        gridList = new ArrayList<>();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -70,15 +70,14 @@ public class HomeFragment extends Fragment {
                     String title = children.get(i).getRecipe().getLabel();
                     double quantity = children.get(i).getRecipe().getYield();
 
-                    gritList.add(new GridItem(image, title, 1, 1));
+                    gridList.add(new GridItem(image, title, 1, 1));
                 }
-                adapter = new Adapter(getActivity(), gritList);
+                adapter = new Adapter(getActivity(), gridList);
                 recyclerView.setAdapter(adapter);
             }
 
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
-
                 Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT);
             }
         });

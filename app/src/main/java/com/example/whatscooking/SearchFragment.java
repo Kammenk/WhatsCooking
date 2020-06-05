@@ -94,9 +94,14 @@ public class SearchFragment extends Fragment {
 
                 noResultText.setVisibility(View.GONE);
                 ArrayList<Hit> children = response.body().getHits();
+                searchViewAdapter = new SearchViewAdapter();
+                listView = getView().findViewById(R.id.listViewSearch);
                 if(children.isEmpty()){
                     noResultText.setVisibility(View.VISIBLE);
                 }
+                searchViewArrImages.clear();
+                searchViewArrTitles.clear();
+                searchViewAdapter.notifyDataSetChanged();
                 for (int i = 0; i < children.size(); i++) {
 
                     String image = children.get(i).getRecipe().getImage();
@@ -106,8 +111,6 @@ public class SearchFragment extends Fragment {
                     searchViewArrImages.add(image);
                     searchViewArrTitles.add(title);
                 }
-                searchViewAdapter = new SearchViewAdapter();
-                listView = getView().findViewById(R.id.listViewSearch);
                 listView.setAdapter(searchViewAdapter);
                 //adapter = new Adapter(getActivity(), gridList);
                 //recyclerView.setAdapter(adapter);

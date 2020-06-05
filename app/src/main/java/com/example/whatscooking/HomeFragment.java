@@ -1,5 +1,7 @@
 package com.example.whatscooking;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +21,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -38,6 +43,9 @@ public class HomeFragment extends Fragment {
     private Adapter adapter;
     private ArrayList<GridItem> gridList;
     RecyclerView.LayoutManager layoutManager;
+    SharedPreferences sharedPreferences;
+    String yesterdaysDate;
+    String lastQuery;
 
     @Nullable
     @Override
@@ -46,32 +54,56 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
-        layoutManager =  new GridLayoutManager(getActivity(),2,GridLayoutManager.VERTICAL,false); //new LinearLayoutManager(getActivity());
+        layoutManager =  new GridLayoutManager(getActivity(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
         gridList = new ArrayList<>();
+        sharedPreferences = getActivity().getSharedPreferences("com.example.whatscooking", Context.MODE_PRIVATE);
+        yesterdaysDate = sharedPreferences.getString("todaysDate","");
+        lastQuery = sharedPreferences.getString("todaysQuery","");
+        String todaysDate = getDate();
 
+        if(todaysDate.compareTo(yesterdaysDate) != 0){
+            generateList(foodGenerator());
+        } else {
+            generateList(lastQuery);
+        }
+
+        return rootView;
+    }
+
+    public String getDate(){
+        Date calendar = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+        String formattedDate = dateFormat.format(calendar);
+        return formattedDate;
+    }
+
+    public void generateList(String searchResult){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-
-        Call<Post> call = jsonPlaceHolderApi.getPosts(foodGenerator(), appID, appKey);
+        String currentDate = getDate();
+        Call<Post> call = jsonPlaceHolderApi.getPosts(searchResult, appID, appKey);
 
         call.enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
-
+                String query = null;
                 ArrayList<Hit> children = response.body().getHits();
                 for (int i = 0; i < children.size(); i++) {
 
+                    query = response.body().getQ();
                     String image = children.get(i).getRecipe().getImage();
                     String title = children.get(i).getRecipe().getLabel();
                     double quantity = children.get(i).getRecipe().getYield();
 
                     gridList.add(new GridItem(image, title, 1, 1));
                 }
+                sharedPreferences.edit().putString("todaysDate",currentDate).apply();
+                sharedPreferences.edit().putString("todaysQuery",query).apply();
                 adapter = new Adapter(getActivity(), gridList);
                 recyclerView.setAdapter(adapter);
             }
@@ -82,7 +114,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        return rootView;
     }
 
     public String foodGenerator(){

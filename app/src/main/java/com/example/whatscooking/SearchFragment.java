@@ -2,6 +2,7 @@ package com.example.whatscooking;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,8 +14,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Array;
@@ -37,6 +40,8 @@ public class SearchFragment extends Fragment {
     private ArrayList<String> searchViewArrImages;
     private ArrayList<String> searchViewArrTitles;
     private SearchViewAdapter searchViewAdapter;
+    androidx.appcompat.widget.Toolbar homeToolbar;
+    com.google.android.material.bottomnavigation.BottomNavigationView bottomNavigationView;
 
     @Nullable
     @Override
@@ -46,10 +51,15 @@ public class SearchFragment extends Fragment {
 
         searchView = rootView.findViewById(R.id.searchBar);
         listView = rootView.findViewById(R.id.listViewSearch);
+        FoodActivity.bottomNavigationView.getMenu().getItem(1).setChecked(true);
         searchViewArrImages = new ArrayList<>();
         searchViewArrTitles = new ArrayList<>();
         noResultText = rootView.findViewById(R.id.noResultText);
-
+        bottomNavigationView = rootView.findViewById(R.id.bot_nav);
+//        homeToolbar = rootView.findViewById(R.id.toolbarSearch);
+//        homeToolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+//        homeToolbar.setNavigationOnClickListener(v -> getFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                new HomeFragment()).commit());
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -67,16 +77,14 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                noResultText.setVisibility(View.GONE);
-            }
+        searchView.setOnSearchClickListener(v -> {
+            System.out.println("CLICKED");
+            noResultText.setVisibility(View.GONE);
         });
-
 
         return rootView;
     }
+
 
     public void generateList(String searchResult){
         Retrofit retrofit = new Retrofit.Builder()

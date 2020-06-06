@@ -14,6 +14,10 @@ public class FavoritesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_favorites, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_favorites, container, false);
+
+        FoodActivity.bottomNavigationView.getMenu().getItem(2).setChecked(true);
+
+        return rootView;
     }
 }

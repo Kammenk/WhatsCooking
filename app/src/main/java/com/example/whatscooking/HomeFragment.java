@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,6 +47,7 @@ public class HomeFragment extends Fragment {
     SharedPreferences sharedPreferences;
     String yesterdaysDate;
     String lastQuery;
+    androidx.appcompat.widget.Toolbar homeToolbar;
 
     @Nullable
     @Override
@@ -53,6 +55,10 @@ public class HomeFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        homeToolbar = rootView.findViewById(R.id.toolbarHome);
+        homeToolbar.setTitle(R.string.home_title);
+
+        FoodActivity.bottomNavigationView.getMenu().getItem(0).setChecked(true);
         recyclerView = rootView.findViewById(R.id.recyclerView);
         layoutManager =  new GridLayoutManager(getActivity(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
@@ -61,6 +67,8 @@ public class HomeFragment extends Fragment {
         yesterdaysDate = sharedPreferences.getString("todaysDate","");
         lastQuery = sharedPreferences.getString("todaysQuery","");
         String todaysDate = getDate();
+
+
 
         if(todaysDate.compareTo(yesterdaysDate) != 0){
             generateList(foodGenerator());

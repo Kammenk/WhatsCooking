@@ -4,15 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class FoodActivity extends AppCompatActivity {
 
+    public static BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,12 +25,27 @@ public class FoodActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bot_nav);
+        bottomNavigationView = findViewById(R.id.bot_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
-
         setHomeFragment();
 
+
+
     }
+
+    @Override
+    public void onBackPressed()
+    {
+        FragmentManager fm = getFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            Log.i("MainActivity", "popping backstack");
+            fm.popBackStack();
+        } else {
+            Log.i("MainActivity", "nothing on backstack, calling super");
+            super.onBackPressed();
+        }
+    }
+
 
     private void setHomeFragment(){
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -50,7 +69,7 @@ public class FoodActivity extends AppCompatActivity {
                     break;
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    selectedFragment).commit();
+                    selectedFragment).addToBackStack(selectedFragment.getTag()).commit();
             return true;
         }
     };

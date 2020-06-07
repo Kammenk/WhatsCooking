@@ -43,11 +43,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                 intent.putExtra("healthLabel",mGridList.get(viewHolder.getAdapterPosition()).getmHealthLabel());
                 intent.putExtra("ingredients",mGridList.get(viewHolder.getAdapterPosition()).getmIngredients());
                 mContext.startActivity(intent);
-                System.out.println("ITEM CLICKED: " + viewHolder.getAdapterPosition());
             }
         });
         return viewHolder;
-        //return new ViewHolder(view);
     }
 
     @Override
@@ -63,7 +61,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         String ingredients = currentItem.getmIngredients();
 
         holder.mGridTitle.setText(title);
-        holder.mGridQuantity.setText("Quantity: " + quantity);
+        holder.mGridQuantity.setText("Servings: " + quantity);
         holder.mGridCalories.setText("Calories: " + calories);
         holder.mGridDietLabel.setText("Diet labels: " + dietLabel);
         holder.mGridHealthLabel.setText("Health labels: " + healthLabel);

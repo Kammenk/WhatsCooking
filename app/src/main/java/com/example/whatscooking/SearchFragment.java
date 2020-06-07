@@ -1,10 +1,12 @@
 package com.example.whatscooking;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -22,6 +24,7 @@ import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +42,11 @@ public class SearchFragment extends Fragment {
     private static final String BASE_URL = "https://api.edamam.com/";
     private ArrayList<String> searchViewArrImages;
     private ArrayList<String> searchViewArrTitles;
+    private ArrayList<Integer> searchViewArrQuantity;
+    private ArrayList<Integer> searchViewArrCalories;
+    private ArrayList<String> searchViewArrDietLabel;
+    private ArrayList<String> searchViewArrHealthLabel;
+    private ArrayList<String> searchViewArrIngredients;
     private SearchViewAdapter searchViewAdapter;
     androidx.appcompat.widget.Toolbar homeToolbar;
     com.google.android.material.bottomnavigation.BottomNavigationView bottomNavigationView;
@@ -54,6 +62,11 @@ public class SearchFragment extends Fragment {
         FoodActivity.bottomNavigationView.getMenu().getItem(1).setChecked(true);
         searchViewArrImages = new ArrayList<>();
         searchViewArrTitles = new ArrayList<>();
+        searchViewArrQuantity = new ArrayList<>();
+        searchViewArrCalories = new ArrayList<>();;
+        searchViewArrDietLabel = new ArrayList<>();;
+        searchViewArrHealthLabel = new ArrayList<>();;
+        searchViewArrIngredients = new ArrayList<>();;
         noResultText = rootView.findViewById(R.id.noResultText);
         bottomNavigationView = rootView.findViewById(R.id.bot_nav);
 //        homeToolbar = rootView.findViewById(R.id.toolbarSearch);
@@ -78,8 +91,22 @@ public class SearchFragment extends Fragment {
         });
 
         searchView.setOnSearchClickListener(v -> {
-            System.out.println("CLICKED");
             noResultText.setVisibility(View.GONE);
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(),DetailActivity.class);
+                intent.putExtra("Image",searchViewArrImages.get(position));
+                intent.putExtra("Title",searchViewArrTitles.get(position));
+                intent.putExtra("Quantity",searchViewArrQuantity.get(position));
+                intent.putExtra("Calories",searchViewArrCalories.get(position));
+                intent.putExtra("dietLabel",searchViewArrDietLabel.get(position));
+                intent.putExtra("healthLabel",searchViewArrHealthLabel.get(position));
+                intent.putExtra("ingredients",searchViewArrIngredients.get(position));
+                startActivity(intent);
+            }
         });
 
         return rootView;
@@ -101,6 +128,7 @@ public class SearchFragment extends Fragment {
             public void onResponse(Call<Post> call, Response<Post> response) {
 
                 noResultText.setVisibility(View.GONE);
+                assert response.body() != null;
                 ArrayList<Hit> children = response.body().getHits();
                 searchViewAdapter = new SearchViewAdapter();
                 listView = getView().findViewById(R.id.listViewSearch);
@@ -109,19 +137,31 @@ public class SearchFragment extends Fragment {
                 }
                 searchViewArrImages.clear();
                 searchViewArrTitles.clear();
+                searchViewArrQuantity.clear();
+                searchViewArrCalories.clear();
+                searchViewArrDietLabel.clear();
+                searchViewArrHealthLabel.clear();
+                searchViewArrIngredients.clear();
                 searchViewAdapter.notifyDataSetChanged();
                 for (int i = 0; i < children.size(); i++) {
 
-                    String image = children.get(i).getRecipe().getImage();
-                    String title = children.get(i).getRecipe().getLabel();
-                    double quantity = children.get(i).getRecipe().getYield();
+                    String searchViewImage = children.get(i).getRecipe().getImage();
+                    String searchViewTitle = children.get(i).getRecipe().getLabel();
+                    int searchViewQuantity = children.get(i).getRecipe().getYield().intValue();
+                    int searchViewCalories = children.get(i).getRecipe().getCalories().intValue();
+                    List searchViewDietLabel = children.get(i).getRecipe().getDietLabels();
+                    List searchViewHealthLabel = children.get(i).getRecipe().getHealthLabels();
+                    List searchViewIngredients = children.get(i).getRecipe().getIngredientLines();
 
-                    searchViewArrImages.add(image);
-                    searchViewArrTitles.add(title);
+                    searchViewArrImages.add(searchViewImage);
+                    searchViewArrTitles.add(searchViewTitle);
+                    searchViewArrQuantity.add(searchViewQuantity);
+                    searchViewArrCalories.add(searchViewCalories);
+                    searchViewArrDietLabel.add(searchViewDietLabel.toString());
+                    searchViewArrHealthLabel.add(searchViewHealthLabel.toString());
+                    searchViewArrIngredients.add(searchViewIngredients.toString());
                 }
                 listView.setAdapter(searchViewAdapter);
-                //adapter = new Adapter(getActivity(), gridList);
-                //recyclerView.setAdapter(adapter);
             }
 
             @Override

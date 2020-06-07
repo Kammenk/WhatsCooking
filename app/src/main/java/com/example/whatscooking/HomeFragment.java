@@ -1,6 +1,7 @@
 package com.example.whatscooking;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -63,6 +65,7 @@ public class HomeFragment extends Fragment {
         layoutManager =  new GridLayoutManager(getActivity(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
         gridList = new ArrayList<>();
+        adapter = new Adapter(getActivity(), gridList);
         sharedPreferences = getActivity().getSharedPreferences("com.example.whatscooking", Context.MODE_PRIVATE);
         yesterdaysDate = sharedPreferences.getString("todaysDate","");
         lastQuery = sharedPreferences.getString("todaysQuery","");
@@ -106,14 +109,20 @@ public class HomeFragment extends Fragment {
                     query = response.body().getQ();
                     String image = children.get(i).getRecipe().getImage();
                     String title = children.get(i).getRecipe().getLabel();
-                    double quantity = children.get(i).getRecipe().getYield();
+                    int  quantity = children.get(i).getRecipe().getYield().intValue();
+                    int calories = children.get(i).getRecipe().getCalories().intValue();
+                    List<String> dietLabel = children.get(i).getRecipe().getDietLabels();
+                    List<String> healthLabel = children.get(i).getRecipe().getHealthLabels();
+                    List<String> ingredients = children.get(i).getRecipe().getIngredientLines();
 
-                    gridList.add(new GridItem(image, title, 1, 1));
+
+                    gridList.add(new GridItem(image, title, quantity, calories,dietLabel.toString(),healthLabel.toString(),ingredients.toString()));
                 }
                 sharedPreferences.edit().putString("todaysDate",currentDate).apply();
                 sharedPreferences.edit().putString("todaysQuery",query).apply();
                 adapter = new Adapter(getActivity(), gridList);
                 recyclerView.setAdapter(adapter);
+
             }
 
             @Override
@@ -121,7 +130,6 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT);
             }
         });
-
     }
 
     public String foodGenerator(){
@@ -130,5 +138,6 @@ public class HomeFragment extends Fragment {
 
         return foodList[rand.nextInt(9)];
     }
+
 }
 

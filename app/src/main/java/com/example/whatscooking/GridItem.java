@@ -6,12 +6,20 @@ public class GridItem {
     private String mTitle;
     private int mQuantity;
     private int mCalories;
+    private String mDietLabel;
+    private String mHealthLabel;
+    private String mIngredients;
 
-    public GridItem(String mImage, String mTitle, int mQuantity, int mCalories) {
+    public GridItem(String mImage, String mTitle, int mQuantity, int mCalories, String mDietLabel, String mHealthLabel, String mIngredients) {
         this.mImage = mImage;
         this.mTitle = mTitle;
         this.mQuantity = mQuantity;
         this.mCalories = mCalories;
+        this.mDietLabel = mDietLabel;
+        this.mHealthLabel = mHealthLabel;
+        this.mIngredients = mIngredients;
+
+
     }
 
     public String getmImage() {
@@ -28,5 +36,17 @@ public class GridItem {
 
     public int getmCalories() {
         return mCalories;
+    }
+
+    public String getmDietLabel() {
+        return mDietLabel;
+    }
+
+    public String getmHealthLabel() {
+        return mHealthLabel;
+    }
+
+    public String getmIngredients() {
+        return mIngredients;
     }
 }

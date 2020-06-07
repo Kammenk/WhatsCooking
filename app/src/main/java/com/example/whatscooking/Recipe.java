@@ -28,6 +28,9 @@ public class Recipe {
     @SerializedName("ingredientLines")
     @Expose
     private List<String> ingredientLines = null;
+    @SerializedName("calories")
+    @Expose
+    private Double calories;
 
     public String getLabel() {
         return label;
@@ -55,6 +58,10 @@ public class Recipe {
 
     public List<String> getIngredientLines() {
         return ingredientLines;
+    }
+
+    public Double getCalories() {
+        return calories;
     }
 
     @Override

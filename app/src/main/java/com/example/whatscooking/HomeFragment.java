@@ -38,8 +38,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeFragment extends Fragment {
 
-    private String appID = "c2f84b80";
-    private String appKey = "73d477d26f4d7944598ac6e6332c992a";
+    private String appID = "1234";
+    private String appKey = "12345";
     private static final String BASE_URL = "https://api.edamam.com/";
 
     private RecyclerView recyclerView;

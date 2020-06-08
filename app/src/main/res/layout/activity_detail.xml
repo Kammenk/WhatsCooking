@@ -10,14 +10,21 @@
     android:scrollbars="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".DetailActivity"
         android:scrollbars="vertical">
 
+        <TextView
+            android:id="@+id/backBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_arrow_red"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:translationZ="20dp"
+            android:onClick="goBack"
+            />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewImageHolder"
@@ -26,8 +33,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="15dp"
-            app:cardCornerRadius="10dp">
+            android:background="@drawable/detail_activity_cardview_bg"
+            app:cardPreventCornerOverlap="true">
 
             <ImageView
                 android:id="@+id/detailImage"
@@ -47,9 +54,23 @@
             android:id="@+id/detailTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:text="Recipe name"
+            android:textColor="@android:color/black"
             android:textSize="25sp"
-            app:layout_constraintTop_toBottomOf="@id/cardViewImageHolder"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardViewImageHolder" />
+
+        <TextView
+            android:id="@+id/detailTotalTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cook time: "
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/detailTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="10dp"
@@ -61,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/detailTitle"
+            app:layout_constraintTop_toBottomOf="@id/detailTotalTime"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="10dp"

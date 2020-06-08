@@ -47,6 +47,7 @@ public class SearchFragment extends Fragment {
     private ArrayList<String> searchViewArrDietLabel;
     private ArrayList<String> searchViewArrHealthLabel;
     private ArrayList<String> searchViewArrIngredients;
+    private ArrayList<Integer> searchViewArrTotalTime;
     private SearchViewAdapter searchViewAdapter;
     androidx.appcompat.widget.Toolbar homeToolbar;
     com.google.android.material.bottomnavigation.BottomNavigationView bottomNavigationView;
@@ -67,12 +68,10 @@ public class SearchFragment extends Fragment {
         searchViewArrDietLabel = new ArrayList<>();;
         searchViewArrHealthLabel = new ArrayList<>();;
         searchViewArrIngredients = new ArrayList<>();;
+        searchViewArrTotalTime = new ArrayList<>();
         noResultText = rootView.findViewById(R.id.noResultText);
         bottomNavigationView = rootView.findViewById(R.id.bot_nav);
-//        homeToolbar = rootView.findViewById(R.id.toolbarSearch);
-//        homeToolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
-//        homeToolbar.setNavigationOnClickListener(v -> getFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                new HomeFragment()).commit());
+
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -105,6 +104,7 @@ public class SearchFragment extends Fragment {
                 intent.putExtra("dietLabel",searchViewArrDietLabel.get(position));
                 intent.putExtra("healthLabel",searchViewArrHealthLabel.get(position));
                 intent.putExtra("ingredients",searchViewArrIngredients.get(position));
+                intent.putExtra("totalTime", searchViewArrTotalTime.get(position));
                 startActivity(intent);
             }
         });
@@ -142,6 +142,7 @@ public class SearchFragment extends Fragment {
                 searchViewArrDietLabel.clear();
                 searchViewArrHealthLabel.clear();
                 searchViewArrIngredients.clear();
+                searchViewArrTotalTime.clear();
                 searchViewAdapter.notifyDataSetChanged();
                 for (int i = 0; i < children.size(); i++) {
 
@@ -152,14 +153,16 @@ public class SearchFragment extends Fragment {
                     List searchViewDietLabel = children.get(i).getRecipe().getDietLabels();
                     List searchViewHealthLabel = children.get(i).getRecipe().getHealthLabels();
                     List searchViewIngredients = children.get(i).getRecipe().getIngredientLines();
+                    int searchViewTotalTime = children.get(i).getRecipe().getTotalTime().intValue();
 
                     searchViewArrImages.add(searchViewImage);
                     searchViewArrTitles.add(searchViewTitle);
                     searchViewArrQuantity.add(searchViewQuantity);
                     searchViewArrCalories.add(searchViewCalories);
-                    searchViewArrDietLabel.add(searchViewDietLabel.toString());
-                    searchViewArrHealthLabel.add(searchViewHealthLabel.toString());
-                    searchViewArrIngredients.add(searchViewIngredients.toString());
+                    searchViewArrDietLabel.add(searchViewDietLabel.toString().replace("[ ]"," "));
+                    searchViewArrHealthLabel.add(searchViewHealthLabel.toString().replace("[ ]"," "));
+                    searchViewArrIngredients.add(searchViewIngredients.toString().replace("[ ]"," "));
+                    searchViewArrTotalTime.add(searchViewTotalTime);
                 }
                 listView.setAdapter(searchViewAdapter);
             }
@@ -193,13 +196,28 @@ public class SearchFragment extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
+            int cookTimeTopMinimum = 60;
+            int cookTimeBottomMinimum = 0;
+
             View view = getLayoutInflater().inflate(R.layout.searchview_list_item,null);
 
             ImageView searchViewImage = view.findViewById(R.id.searchViewImage);
             TextView searchViewTitle = view.findViewById(R.id.searchViewTitle);
+            TextView searchViewServings = view.findViewById(R.id.searchViewServings);
+            TextView searchViewCookTime = view.findViewById(R.id.searchViewCookTime);
 
             Picasso.get().load(searchViewArrImages.get(position)).fit().centerInside().into(searchViewImage);
             searchViewTitle.setText(searchViewArrTitles.get(position));
+            searchViewServings.setText("Servings: " + searchViewArrQuantity.get(position));
+
+            if (searchViewArrTotalTime.get(position) > cookTimeTopMinimum){
+                searchViewCookTime.setText("Cook time: Over 60 minutes");
+            } else if(searchViewArrTotalTime.get(position) <= cookTimeBottomMinimum) {
+                searchViewCookTime.setText("Cook time: Not measured");
+            } else {
+                searchViewCookTime.setText("Cook time: " + searchViewArrTotalTime.get(position) + " minutes");
+            }
+
 
             return view;
         }

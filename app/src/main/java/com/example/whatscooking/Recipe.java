@@ -31,6 +31,9 @@ public class Recipe {
     @SerializedName("calories")
     @Expose
     private Double calories;
+    @SerializedName("totalTime")
+    @Expose
+    private Double totalTime;
 
     public String getLabel() {
         return label;
@@ -62,6 +65,10 @@ public class Recipe {
 
     public Double getCalories() {
         return calories;
+    }
+
+    public Double getTotalTime() {
+        return totalTime;
     }
 
     @Override

@@ -114,9 +114,10 @@ public class HomeFragment extends Fragment {
                     List<String> dietLabel = children.get(i).getRecipe().getDietLabels();
                     List<String> healthLabel = children.get(i).getRecipe().getHealthLabels();
                     List<String> ingredients = children.get(i).getRecipe().getIngredientLines();
+                    int totalTime = children.get(i).getRecipe().getTotalTime().intValue();
 
 
-                    gridList.add(new GridItem(image, title, quantity, calories,dietLabel.toString(),healthLabel.toString(),ingredients.toString()));
+                    gridList.add(new GridItem(image, title, quantity, calories,dietLabel.toString(),healthLabel.toString(),ingredients.toString(),totalTime));
                 }
                 sharedPreferences.edit().putString("todaysDate",currentDate).apply();
                 sharedPreferences.edit().putString("todaysQuery",query).apply();

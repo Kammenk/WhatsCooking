@@ -42,6 +42,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                 intent.putExtra("dietLabel",mGridList.get(viewHolder.getAdapterPosition()).getmDietLabel());
                 intent.putExtra("healthLabel",mGridList.get(viewHolder.getAdapterPosition()).getmHealthLabel());
                 intent.putExtra("ingredients",mGridList.get(viewHolder.getAdapterPosition()).getmIngredients());
+                intent.putExtra("totalTime",mGridList.get(viewHolder.getAdapterPosition()).getmTotalTime());
                 mContext.startActivity(intent);
             }
         });
@@ -50,6 +51,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        int cookTimeTopMinimum = 60;
+        int cookTimeBottomMinimum = 0;
+
         GridItem currentItem = mGridList.get(position);
 
         String imageUrl = currentItem.getmImage();
@@ -59,13 +63,23 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         String dietLabel = currentItem.getmDietLabel();
         String healthLabel = currentItem.getmHealthLabel();
         String ingredients = currentItem.getmIngredients();
+        int totalTime = currentItem.getmTotalTime();
 
         holder.mGridTitle.setText(title);
         holder.mGridQuantity.setText("Servings: " + quantity);
         holder.mGridCalories.setText("Calories: " + calories);
-        holder.mGridDietLabel.setText("Diet labels: " + dietLabel);
-        holder.mGridHealthLabel.setText("Health labels: " + healthLabel);
-        holder.mGridIngredients.setText("Ingredients: " + ingredients);
+        holder.mGridDietLabel.setText("Diet labels: " + dietLabel.replace("["," "));
+        holder.mGridHealthLabel.setText("Health labels: " + healthLabel.replace("["," "));
+        holder.mGridIngredients.setText("Ingredients: " + ingredients.replace("["," "));
+
+        if (totalTime > cookTimeTopMinimum){
+            holder.mGridTotalTime.setText("Cook time: Over 60 minutes");
+        } else if(totalTime <= cookTimeBottomMinimum) {
+            holder.mGridTotalTime.setText("Cook time: Not measured");
+        } else {
+            holder.mGridTotalTime.setText("Cook time: " + totalTime + " minutes");
+        }
+
         Picasso.get().load(imageUrl).fit().centerInside().into(holder.mGridImage);
     }
 
@@ -82,6 +96,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         public TextView mGridDietLabel;
         public TextView mGridHealthLabel;
         public TextView mGridIngredients;
+        public TextView mGridTotalTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,6 +107,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             mGridDietLabel = itemView.findViewById(R.id.gridDietLabel);
             mGridHealthLabel = itemView.findViewById(R.id.gridHealthLabel);
             mGridIngredients = itemView.findViewById(R.id.gridIngredients);
+            mGridTotalTime = itemView.findViewById(R.id.gridTotalTime);
 
         }
     }

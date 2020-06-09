@@ -26,14 +26,8 @@ public class MainActivity extends AppCompatActivity {
         setRandomBackground();
         switchActivity();
 
-
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        onBackPressed();
-    }
 
     public void switchActivity(){
         Timer timer = new Timer();

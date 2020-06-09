@@ -7,13 +7,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailActivity"
-    android:scrollbars="vertical">
+    android:scrollbars="vertical"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".DetailActivity"
-        android:scrollbars="vertical">
+        android:scrollbars="vertical"
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:id="@+id/backBtn"
@@ -22,7 +24,7 @@
             android:background="@drawable/ic_arrow_red"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:translationZ="20dp"
+            android:translationZ="15dp"
             android:onClick="goBack"
             />
 
@@ -33,14 +35,12 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/detail_activity_cardview_bg"
             app:cardPreventCornerOverlap="true">
 
             <ImageView
                 android:id="@+id/detailImage"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:background="@drawable/detail_image_style"
                 android:src="@drawable/ic_launcher_background"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -57,8 +57,9 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="Recipe name"
-            android:textColor="@android:color/black"
-            android:textSize="25sp"
+            android:textColor="#FFED5F5F"
+            android:fontFamily="@font/roboto_condensed_bold"
+            android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,6 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cook time: "
+            android:fontFamily="@font/roboto_condensed_bold"
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/detailTitle"
             app:layout_constraintStart_toStartOf="parent"
@@ -92,6 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Quantity"
+                android:fontFamily="@font/roboto_condensed_bold"
                 android:textSize="18sp"
                 android:layout_weight="1"/>
             <TextView
@@ -99,6 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Calories"
+                android:fontFamily="@font/roboto_condensed_bold"
                 android:textSize="18sp"
                 android:layout_weight="1"/>
         </LinearLayout>
@@ -111,6 +115,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="Diet Label: "
+            android:fontFamily="@font/roboto_condensed_bold"
             android:textSize="18sp"
             android:layout_margin="10dp"/>
         <TextView
@@ -121,6 +126,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="Health Label: "
+            android:fontFamily="@font/roboto_condensed_bold"
             android:textSize="18sp"
             android:layout_margin="10dp"/>
         <TextView
@@ -131,6 +137,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="Ingredients: "
+            android:fontFamily="@font/roboto_condensed_bold"
             android:textSize="18sp"
             android:layout_margin="10dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

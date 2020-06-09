@@ -15,27 +15,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:padding="10dp"
         android:weightSum="1"
         >
-        <ImageView
-            android:id="@+id/gridImage"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:src="@drawable/ic_launcher_background"
-            />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/gridCardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp">
+            <ImageView
+                android:id="@+id/gridImage"
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:src="@drawable/ic_launcher_background"
+                />
+
+        </androidx.cardview.widget.CardView>
+
         <TextView
             android:id="@+id/gridTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recipe name"
+            android:fontFamily="@font/roboto_condensed_bold"
             android:textSize="18sp"
+            android:textColor="#FFED5F5F"
             android:layout_marginTop="10dp"/>
 
         <TextView
             android:id="@+id/gridQuantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
             android:text="Servings: "
             android:textSize="15sp"
             />
@@ -43,6 +54,7 @@
             android:id="@+id/gridCalories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
             android:text="Calories: "
             android:textSize="15sp"
             />

@@ -38,18 +38,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeFragment extends Fragment {
 
-    private String appID = "1234";
-    private String appKey = "12345";
+    private String appID = "c2f84b80";
+    private String appKey = "73d477d26f4d7944598ac6e6332c992a";
     private static final String BASE_URL = "https://api.edamam.com/";
 
     private RecyclerView recyclerView;
     private Adapter adapter;
     private ArrayList<GridItem> gridList;
-    RecyclerView.LayoutManager layoutManager;
-    SharedPreferences sharedPreferences;
-    String yesterdaysDate;
-    String lastQuery;
-    androidx.appcompat.widget.Toolbar homeToolbar;
+    private RecyclerView.LayoutManager layoutManager;
+    private SharedPreferences sharedPreferences;
+    private String yesterdaysDate;
+    private String lastQuery;
+    private androidx.appcompat.widget.Toolbar homeToolbar;
+    private int fragmentNum;
 
     @Nullable
     @Override
@@ -61,16 +62,17 @@ public class HomeFragment extends Fragment {
         homeToolbar.setTitle(R.string.home_title);
 
         FoodActivity.bottomNavigationView.getMenu().getItem(0).setChecked(true);
+        fragmentNum = 1;
         recyclerView = rootView.findViewById(R.id.recyclerView);
         layoutManager =  new GridLayoutManager(getActivity(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
         gridList = new ArrayList<>();
-        adapter = new Adapter(getActivity(), gridList);
+        adapter = new Adapter(getActivity(), gridList, fragmentNum);
+
         sharedPreferences = getActivity().getSharedPreferences("com.example.whatscooking", Context.MODE_PRIVATE);
         yesterdaysDate = sharedPreferences.getString("todaysDate","");
         lastQuery = sharedPreferences.getString("todaysQuery","");
         String todaysDate = getDate();
-
 
 
         if(todaysDate.compareTo(yesterdaysDate) != 0){
@@ -112,16 +114,18 @@ public class HomeFragment extends Fragment {
                     int  quantity = children.get(i).getRecipe().getYield().intValue();
                     int calories = children.get(i).getRecipe().getCalories().intValue();
                     List<String> dietLabel = children.get(i).getRecipe().getDietLabels();
+                    String dietLabelTrim = dietLabel.toString().replaceAll("[\\[\\]\"]", "").trim().isEmpty() ? "None" : dietLabel.toString().replaceAll("[\\[\\]\"]", "").trim();
                     List<String> healthLabel = children.get(i).getRecipe().getHealthLabels();
+                    String healthLabelTrim = healthLabel.toString().replaceAll("[\\[\\]\"]", "").trim().isEmpty() ? "None" : healthLabel.toString().replaceAll("[\\[\\]\"]", "").trim();
                     List<String> ingredients = children.get(i).getRecipe().getIngredientLines();
+                    String ingredientsTrim = ingredients.toString().replaceAll("[\\[\\]\"]", "").trim().isEmpty() ? "None" : ingredients.toString().replaceAll("[\\[\\]\"]", "").trim();
                     int totalTime = children.get(i).getRecipe().getTotalTime().intValue();
 
-
-                    gridList.add(new GridItem(image, title, quantity, calories,dietLabel.toString(),healthLabel.toString(),ingredients.toString(),totalTime));
+                    gridList.add(new GridItem(image, title, quantity, calories,dietLabelTrim,healthLabelTrim,ingredientsTrim,totalTime));
                 }
                 sharedPreferences.edit().putString("todaysDate",currentDate).apply();
                 sharedPreferences.edit().putString("todaysQuery",query).apply();
-                adapter = new Adapter(getActivity(), gridList);
+                adapter = new Adapter(getActivity(), gridList,fragmentNum);
                 recyclerView.setAdapter(adapter);
 
             }

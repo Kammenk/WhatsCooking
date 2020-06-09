@@ -2,6 +2,11 @@ package com.example.whatscooking;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
+import android.text.style.TypefaceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,17 +24,26 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private Context mContext;
     private ArrayList<GridItem> mGridList;
+    private int mFragmentNum;
 
 
-    public Adapter(Context context, ArrayList<GridItem> gridList ){
+    public Adapter(Context context, ArrayList<GridItem> gridList, int fragmentNum){
         mContext = context;
         mGridList = gridList;
+        mFragmentNum = fragmentNum;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.grid_item,parent,false);
+        View view;
+        if (mFragmentNum == 1) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.grid_item, parent, false);
+        } else {
+            view = LayoutInflater.from(mContext).inflate(R.layout.searchview_list_item, parent, false);
+        }
+
+        System.out.println("FRAGMENT NUM: " + mFragmentNum);
         ViewHolder viewHolder = new ViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,9 +82,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         holder.mGridTitle.setText(title);
         holder.mGridQuantity.setText("Servings: " + quantity);
         holder.mGridCalories.setText("Calories: " + calories);
-        holder.mGridDietLabel.setText("Diet labels: " + dietLabel.replace("["," "));
-        holder.mGridHealthLabel.setText("Health labels: " + healthLabel.replace("["," "));
-        holder.mGridIngredients.setText("Ingredients: " + ingredients.replace("["," "));
+        holder.mGridDietLabel.setText("Diet labels: " + dietLabel);
+        holder.mGridHealthLabel.setText("Health labels: " + healthLabel);
+        holder.mGridIngredients.setText("Ingredients: " + ingredients);
 
         if (totalTime > cookTimeTopMinimum){
             holder.mGridTotalTime.setText("Cook time: Over 60 minutes");
@@ -78,6 +92,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             holder.mGridTotalTime.setText("Cook time: Not measured");
         } else {
             holder.mGridTotalTime.setText("Cook time: " + totalTime + " minutes");
+
         }
 
         Picasso.get().load(imageUrl).fit().centerInside().into(holder.mGridImage);
@@ -89,16 +104,16 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView mGridImage;
-        public TextView mGridTitle;
-        public TextView mGridQuantity;
-        public TextView mGridCalories;
-        public TextView mGridDietLabel;
-        public TextView mGridHealthLabel;
-        public TextView mGridIngredients;
-        public TextView mGridTotalTime;
+        ImageView mGridImage;
+        TextView mGridTitle;
+        TextView mGridQuantity;
+        TextView mGridCalories;
+        TextView mGridDietLabel;
+        TextView mGridHealthLabel;
+        TextView mGridIngredients;
+        TextView mGridTotalTime;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             mGridImage = itemView.findViewById(R.id.gridImage);
             mGridTitle = itemView.findViewById(R.id.gridTitle);

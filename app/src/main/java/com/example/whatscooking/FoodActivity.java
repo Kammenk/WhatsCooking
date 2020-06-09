@@ -30,7 +30,6 @@ public class FoodActivity extends AppCompatActivity {
         setHomeFragment();
 
 
-
     }
 
     @Override

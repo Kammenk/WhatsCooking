@@ -6,4 +6,5 @@
     <color name="appBGColor">#EFEFEF</color>
     <color name="titleBGColor">#FFFFFF</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorTitle">#FFED5F5F</color>
 </resources>

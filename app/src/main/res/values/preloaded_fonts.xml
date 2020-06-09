@@ -2,5 +2,8 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/architects_daughter</item>
+        <item>@font/roboto_condensed_light</item>
+        <item>@font/roboto_condensed_regular</item>
+        <item>@font/roboto_medium</item>
     </array>
 </resources>

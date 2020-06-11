@@ -2,11 +2,10 @@ package com.example.whatscooking;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
-import android.text.style.TypefaceSpan;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
@@ -39,8 +41,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         View view;
         if (mFragmentNum == 1) {
             view = LayoutInflater.from(mContext).inflate(R.layout.grid_item, parent, false);
-        } else {
+        } else if(mFragmentNum == 2) {
             view = LayoutInflater.from(mContext).inflate(R.layout.searchview_list_item, parent, false);
+        } else {
+            view = LayoutInflater.from(mContext).inflate(R.layout.favorite_item, parent, false);
         }
 
         System.out.println("FRAGMENT NUM: " + mFragmentNum);
@@ -71,6 +75,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         GridItem currentItem = mGridList.get(position);
 
         String imageUrl = currentItem.getmImage();
+        System.out.println("IMAGEURL  " + imageUrl);
         String title = currentItem.getmTitle();
         int quantity = currentItem.getmQuantity();
         int calories = currentItem.getmCalories();
@@ -92,7 +97,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             holder.mGridTotalTime.setText("Cook time: Not measured");
         } else {
             holder.mGridTotalTime.setText("Cook time: " + totalTime + " minutes");
-
         }
 
         Picasso.get().load(imageUrl).fit().centerInside().into(holder.mGridImage);

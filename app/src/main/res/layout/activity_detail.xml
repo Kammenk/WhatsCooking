@@ -17,17 +17,6 @@
         android:scrollbars="vertical"
         android:layout_marginBottom="10dp">
 
-        <TextView
-            android:id="@+id/backBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/ic_arrow_red"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:translationZ="15dp"
-            android:onClick="goBack"
-            />
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewImageHolder"
             android:layout_width="match_parent"
@@ -42,6 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:src="@drawable/ic_launcher_background"
+                android:background="@drawable/ic_launcher_background"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

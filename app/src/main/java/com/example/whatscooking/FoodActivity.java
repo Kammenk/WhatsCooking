@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.app.FragmentManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -16,6 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class FoodActivity extends AppCompatActivity {
 
+    public static SQLiteDatabase mainDB;
     public static BottomNavigationView bottomNavigationView;
 
     @Override
@@ -24,6 +26,10 @@ public class FoodActivity extends AppCompatActivity {
         setContentView(R.layout.activity_food);
 
         getSupportActionBar().hide();
+
+        mainDB = this.openOrCreateDatabase("Recipes",MODE_PRIVATE,null);
+        mainDB.execSQL("CREATE TABLE IF NOT EXISTS recipe (image VARCHAR, title VARCHAR, cookTime VARCHAR, quantity VARCHAR, calories VARCHAR, dietLabel VARCHAR, healthLabel VARCHAR, ingredients VARCHAR)");
+        //mainDB.execSQL("DELETE FROM recipe");
 
         bottomNavigationView = findViewById(R.id.bot_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);

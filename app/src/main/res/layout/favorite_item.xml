@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginVertical="5dp"
+    android:layout_marginHorizontal="10dp"
+    app:cardCornerRadius="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        >
+
+        <ImageView
+            android:id="@+id/gridImage"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:src="@drawable/ic_launcher_background"
+            android:background="@drawable/ic_launcher_background"
+            android:scaleType="fitXY"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/gridTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Recipe"
+            android:textSize="30sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/roboto_condensed_bold"
+            android:textColor="#FFED5F5F"/>
+
+        <TextView
+            android:id="@+id/gridTotalTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cook time: "
+            android:textSize="20sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/roboto_medium"/>
+
+        <LinearLayout
+            android:id="@+id/favorite_linear_inner_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+            >
+
+            <TextView
+                android:id="@+id/gridQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Servings: "
+                android:textSize="20sp"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_weight="1"
+                />
+
+            <TextView
+                android:id="@+id/gridCalories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Calories: "
+                android:textSize="20sp"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/gridDietLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/gridHealthLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/gridIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            />
+
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

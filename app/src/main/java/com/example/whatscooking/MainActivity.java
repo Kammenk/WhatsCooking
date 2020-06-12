@@ -2,11 +2,14 @@ package com.example.whatscooking;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
+
 import android.os.Bundle;
 import android.widget.ImageView;
 
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,9 +24,23 @@ public class MainActivity extends AppCompatActivity {
         mainImageView = findViewById(R.id.mainImageView);
 
         setRandomBackground();
+        switchActivity();
+
+    }
 
 
+    public void switchActivity(){
+        Timer timer = new Timer();
+        int delay = 3000;
 
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(MainActivity.this, FoodActivity.class);
+                intent.putExtra("newActivity", "");
+                startActivity(intent);
+            }
+        },delay);
     }
 
     public void setRandomBackground(){

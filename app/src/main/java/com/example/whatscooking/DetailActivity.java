@@ -3,6 +3,7 @@ package com.example.whatscooking;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -29,6 +30,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView detailHealthLabel;
     TextView detailIngredients;
     TextView detailTotalTime;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +51,8 @@ public class DetailActivity extends AppCompatActivity {
         detailIngredients = findViewById(R.id.detailIngredients);
         detailTotalTime = findViewById(R.id.detailTotalTime);
 
-        Intent intent = getIntent();
+        intent = getIntent();
         String imageURL = intent.getStringExtra("Image");
-        System.out.println("IMAGEURL  " + imageURL);
         Picasso.get().load(imageURL).fit().centerInside().into(detailImage);
         detailTitle.setText(intent.getStringExtra("Title"));
         detailQuantity.setText("Servings: " + intent.getIntExtra("Quantity", Integer.parseInt("0")));
@@ -59,8 +60,8 @@ public class DetailActivity extends AppCompatActivity {
         detailDietLabel.setText("Diet Label: " + intent.getStringExtra("dietLabel"));
         detailHealthLabel.setText("Health Label: " + intent.getStringExtra("healthLabel"));
         detailIngredients.setText("Ingredients: " + intent.getStringExtra("ingredients"));
-        int cookTime = intent.getIntExtra("totalTIme",Integer.parseInt("0"));
-
+        int cookTime = intent.getIntExtra("totalTime",0);
+        detailTotalTime.setText("Cook time: " + cookTime);
         getSupportActionBar().setTitle(intent.getStringExtra("Title"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorTitle)));
@@ -101,17 +102,19 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     void saveRecipe(){
+
         SQLiteDatabase mainDB = FoodActivity.mainDB;
-        String image = detailImage.getDrawable().toString();
-        String title = detailTitle.getText().toString();
-        String cookTime = detailTotalTime.getText().toString();
-        String quantity = detailQuantity.getText().toString();
-        String calories = detailCalories.getText().toString();
-        String diet = detailDietLabel.getText().toString().split(": ")[1];
-        String health = detailHealthLabel.getText().toString().split(": ")[1];
-        String ingredients = detailIngredients.getText().toString().split(": ")[1];
-        mainDB.execSQL("INSERT INTO recipe (image, title , cookTime , quantity, calories, dietLabel , healthLabel , ingredients ) VALUES ('" + image + " ', '" +title + " ' , '" +cookTime +" ', '"+ quantity
+
+        String image = intent.getStringExtra("Image");
+        String title = intent.getStringExtra("Title");
+        int cookTime = intent.getIntExtra("totalTime",0);
+        int quantity = intent.getIntExtra("Quantity",0);
+        int calories = intent.getIntExtra("Calories",0);
+        String diet = intent.getStringExtra("dietLabel");
+        String health = intent.getStringExtra("healthLabel");
+        String ingredients = intent.getStringExtra("ingredients");
+        mainDB.execSQL("INSERT INTO recipee (image, title , cookTime , quantity, calories, dietLabel , healthLabel , ingredients ) VALUES ('" + image.toString() + " ', '" +title + " ' , '" +cookTime +" ', '"+ quantity
                 +"', '"+calories +" ','"+ diet +" ', '"+health +" ','"+ ingredients +" ')");
-        Toast.makeText(this,"Recipe saved successfully!",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Recipe saved successfully!",Toast.LENGTH_LONG).show();
     }
 }

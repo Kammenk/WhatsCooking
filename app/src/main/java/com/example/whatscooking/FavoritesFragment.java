@@ -1,5 +1,6 @@
 package com.example.whatscooking;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -43,7 +44,7 @@ public class FavoritesFragment extends Fragment {
         return rootView;
     }
     private void updateList() {
-        Cursor cursor = FoodActivity.mainDB.rawQuery("SELECT * FROM recipe",null);
+        Cursor cursor = FoodActivity.mainDB.rawQuery("SELECT * FROM recipee",null);
 
 
 
@@ -64,21 +65,26 @@ public class FavoritesFragment extends Fragment {
                     String image = cursor.getString(imageIndex);
 
                     String title = cursor.getString(titleIndex);
-                    String quantity = cursor.getString(quantityIndex).replaceAll("\\D+","");
-                    String calories = cursor.getString(caloriesIndex).replaceAll("\\D+","");;
+                    int quantity = cursor.getInt(quantityIndex);//.replaceAll("\\D+","");
+                    int calories = cursor.getInt(caloriesIndex);//.replaceAll("\\D+","");;
                     String dietLabelTrim =  cursor.getString(dietLabelTrimIndex);
                     String healthLabelTrim = cursor.getString(healthLabelTrimIndex);
                     String ingredientsTrim =  cursor.getString(ingredientsTrimIndex);
-                    String totalTime = cursor.getString(totalTimeIndex).replaceAll("\\D+","");;
+                    int totalTime = cursor.getInt(totalTimeIndex);//.replaceAll("\\D+","");;
 
-                    if(totalTime.isEmpty()){
-                        totalTime = "0";
-                    }
+//                    if(totalTime.isEmpty()){
+//                        totalTime = "0";
+//                    }
 
-                    linearList.add(new GridItem(image, title, Integer.parseInt(quantity), Integer.parseInt(calories),dietLabelTrim,healthLabelTrim,ingredientsTrim,Integer.parseInt(totalTime)));
+                    linearList.add(new GridItem(image, title, quantity, calories,dietLabelTrim,healthLabelTrim,ingredientsTrim,totalTime));
                 } while (cursor.moveToNext());
             }
             adapter = new Adapter(getActivity(), linearList, fragmentNum);
             favoriteRecyclerView.setAdapter(adapter);
+    }
+
+    private void addRecipe(View view){
+        Intent intent = new Intent(getActivity(),AddActivity.class);
+        startActivity(intent);
     }
 }

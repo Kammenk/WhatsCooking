@@ -28,8 +28,8 @@ public class FoodActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         mainDB = this.openOrCreateDatabase("Recipes",MODE_PRIVATE,null);
-        mainDB.execSQL("CREATE TABLE IF NOT EXISTS recipe (image VARCHAR, title VARCHAR, cookTime VARCHAR, quantity VARCHAR, calories VARCHAR, dietLabel VARCHAR, healthLabel VARCHAR, ingredients VARCHAR)");
-        //mainDB.execSQL("DELETE FROM recipe");
+        mainDB.execSQL("CREATE TABLE IF NOT EXISTS recipee (id INTEGER PRIMARY KEY, image VARCHAR, title VARCHAR, cookTime INT(3), quantity INT(3), calories INT(5), dietLabel VARCHAR, healthLabel VARCHAR, ingredients VARCHAR)");
+        //mainDB.execSQL("DELETE FROM recipee");
 
         bottomNavigationView = findViewById(R.id.bot_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);

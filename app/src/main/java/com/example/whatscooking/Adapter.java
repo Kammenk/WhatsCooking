@@ -52,6 +52,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("CLICKED: " + viewHolder.getAdapterPosition());
                 Intent intent = new Intent(view.getContext(),DetailActivity.class);
                 intent.putExtra("Image",mGridList.get(viewHolder.getAdapterPosition()).getmImage());
                 intent.putExtra("Title",mGridList.get(viewHolder.getAdapterPosition()).getmTitle());

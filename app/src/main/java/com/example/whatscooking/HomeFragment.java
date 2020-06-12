@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private Adapter adapter;
-    private ArrayList<GridItem> gridList;
+    ArrayList<GridItem> gridList;
     private RecyclerView.LayoutManager layoutManager;
     private SharedPreferences sharedPreferences;
     private String yesterdaysDate;
@@ -120,7 +120,7 @@ public class HomeFragment extends Fragment {
                     List<String> ingredients = children.get(i).getRecipe().getIngredientLines();
                     String ingredientsTrim = ingredients.toString().replaceAll("[\\[\\]\"]", "").trim().isEmpty() ? "None" : ingredients.toString().replaceAll("[\\[\\]\"]", "").trim();
                     int totalTime = children.get(i).getRecipe().getTotalTime().intValue();
-
+                    //System.out.println("TOTALTIME: " + totalTime);
                     gridList.add(new GridItem(image, title, quantity, calories,dietLabelTrim,healthLabelTrim,ingredientsTrim,totalTime));
                 }
                 sharedPreferences.edit().putString("todaysDate",currentDate).apply();

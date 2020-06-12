@@ -4,30 +4,24 @@
     android:layout_height="match_parent"
     android:tag="favoritesFragment">
 
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_centerInParent="true"-->
-<!--        android:text="Coming Soon"-->
-<!--        android:textSize="50sp"-->
-<!--        android:fontFamily="@font/roboto_condensed_bold"/>-->
-
     <Button
         android:id="@+id/favorite_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add a recipe"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/add_button_background"
+        android:text="Add"
+        android:textSize="20sp"
+        android:fontFamily="@font/roboto_condensed_bold"
         android:textColor="@color/colorWhite"
-        android:background="#FFED5F5F"
-        android:layout_marginTop="20dp"
-        android:padding="10dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="15dp"
+        android:onClick="addRecipe"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewFavorite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="75dp"
         android:scrollbars="vertical">
 
     </androidx.recyclerview.widget.RecyclerView>

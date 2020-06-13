@@ -25,6 +25,15 @@ public class FavoritesFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     private int fragmentNum;
 
+    private View.OnClickListener openRecipe = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getActivity(),AddActivity.class);
+            startActivity(intent);
+        }
+    };
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,6 +48,10 @@ public class FavoritesFragment extends Fragment {
         favoriteRecyclerView.setLayoutManager(layoutManager);
         linearList = new ArrayList<>();
         updateList();
+
+        addBtn.setOnClickListener(openRecipe);
+
+
 
 
         return rootView;
@@ -81,10 +94,5 @@ public class FavoritesFragment extends Fragment {
             }
             adapter = new Adapter(getActivity(), linearList, fragmentNum);
             favoriteRecyclerView.setAdapter(adapter);
-    }
-
-    private void addRecipe(View view){
-        Intent intent = new Intent(getActivity(),AddActivity.class);
-        startActivity(intent);
     }
 }

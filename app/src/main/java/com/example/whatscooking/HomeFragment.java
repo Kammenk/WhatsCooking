@@ -27,8 +27,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,10 +60,12 @@ public class HomeFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        homeToolbar = rootView.findViewById(R.id.toolbarHome);
-        homeToolbar.setTitle(R.string.home_title);
+
+//        homeToolbar = rootView.findViewById(R.id.toolbarHome);
+//        homeToolbar.setTitle(R.string.home_title);
 
         FoodActivity.bottomNavigationView.getMenu().getItem(0).setChecked(true);
+        ((FoodActivity) getActivity()).getSupportActionBar().setTitle(R.string.home_title);
         fragmentNum = 1;
         recyclerView = rootView.findViewById(R.id.recyclerView);
         layoutManager =  new GridLayoutManager(getActivity(),2,GridLayoutManager.VERTICAL,false);
@@ -77,8 +81,14 @@ public class HomeFragment extends Fragment {
 
         if(todaysDate.compareTo(yesterdaysDate) != 0){
             generateList(foodGenerator());
+//            System.out.println("IF FIRST IF");
         } else {
             generateList(lastQuery);
+//            System.out.println("IN ELSE");
+//            HashSet<String> newRecipeList = (HashSet<String>) sharedPreferences.getStringSet("recipes",null);
+//            gridList = new ArrayList(newRecipeList);
+//            adapter = new Adapter(getActivity(), gridList,fragmentNum);
+//            recyclerView.setAdapter(adapter);
         }
 
         return rootView;
@@ -120,11 +130,12 @@ public class HomeFragment extends Fragment {
                     List<String> ingredients = children.get(i).getRecipe().getIngredientLines();
                     String ingredientsTrim = ingredients.toString().replaceAll("[\\[\\]\"]", "").trim().isEmpty() ? "None" : ingredients.toString().replaceAll("[\\[\\]\"]", "").trim();
                     int totalTime = children.get(i).getRecipe().getTotalTime().intValue();
-                    //System.out.println("TOTALTIME: " + totalTime);
                     gridList.add(new GridItem(image, title, quantity, calories,dietLabelTrim,healthLabelTrim,ingredientsTrim,totalTime));
                 }
                 sharedPreferences.edit().putString("todaysDate",currentDate).apply();
                 sharedPreferences.edit().putString("todaysQuery",query).apply();
+//                HashSet hashSet = new HashSet(gridList);
+//                sharedPreferences.edit().putStringSet("recipes",hashSet).apply();
                 adapter = new Adapter(getActivity(), gridList,fragmentNum);
                 recyclerView.setAdapter(adapter);
 
@@ -143,6 +154,5 @@ public class HomeFragment extends Fragment {
 
         return foodList[rand.nextInt(9)];
     }
-
 }
 

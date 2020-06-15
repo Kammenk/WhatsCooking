@@ -62,6 +62,7 @@ public class SearchFragment extends Fragment {
         noResultText = rootView.findViewById(R.id.noResultText);
         bottomNavigationView = rootView.findViewById(R.id.bot_nav);
 
+        ((FoodActivity) getActivity()).getSupportActionBar().setTitle("Search recipes");
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

@@ -25,7 +25,7 @@ public class FoodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food);
 
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
 
         mainDB = this.openOrCreateDatabase("Recipes",MODE_PRIVATE,null);
         mainDB.execSQL("CREATE TABLE IF NOT EXISTS recipee (id INTEGER PRIMARY KEY, image VARCHAR, title VARCHAR, cookTime INT(3), quantity INT(3), calories INT(5), dietLabel VARCHAR, healthLabel VARCHAR, ingredients VARCHAR)");

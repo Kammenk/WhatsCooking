@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -36,8 +39,6 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
-
 
         int cookTimeTopMinimum = 60;
         int cookTimeBottomMinimum = 0;
@@ -80,8 +81,13 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.add_menu,menu);
+        if(checkIfSaved()){
+            MenuInflater menuInflater = getMenuInflater();
+            menuInflater.inflate(R.menu.remove_menu,menu);
+        } else {
+            MenuInflater menuInflater = getMenuInflater();
+            menuInflater.inflate(R.menu.add_menu,menu);
+        }
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -96,8 +102,46 @@ public class DetailActivity extends AppCompatActivity {
         } else if (item.getItemId() == android.R.id.home){
             onBackPressed();
             return true;
+        } else if (item.getItemId() == R.id.removeRecipe){
+            System.out.println("CLICKED");
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+            alertDialog.setTitle("Are you sure?")
+                    .setMessage("Do you really want to delete your recipe?")
+                    .setPositiveButton("Yes", (dialog, which) -> deleteRecipe())
+                    .setNegativeButton("No", (dialog, which) -> {
+                return;
+            });
+                alertDialog.show();
         }
 
+        return false;
+    }
+
+    private void deleteRecipe(){
+        FoodActivity.mainDB.execSQL("DELETE FROM recipee WHERE title = '" + detailTitle.getText().toString() + "'");
+        Toast.makeText(this,"Recipe deleted!",Toast.LENGTH_SHORT);
+        onBackPressed();
+    }
+
+    private boolean checkIfSaved() {
+        Cursor cursor = FoodActivity.mainDB.rawQuery("SELECT * FROM recipee", null);
+
+        int titleIndex = cursor.getColumnIndex("title");
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    String title = cursor.getString(titleIndex);
+                    System.out.println("TITLE: " + title);
+                    System.out.println("GETTEXT: " + detailTitle.getText().toString());
+                    System.out.println("equals: " + title.trim().equals(detailTitle.getText().toString().trim()));
+                    if (title.trim().equals(detailTitle.getText().toString().trim())) {
+                        Toast.makeText(this, "Recipe found!", Toast.LENGTH_SHORT);
+                        return true;
+                    }
+                } while (cursor.moveToNext());
+            }
+        }
         return false;
     }
 

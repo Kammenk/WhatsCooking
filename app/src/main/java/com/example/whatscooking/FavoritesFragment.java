@@ -33,13 +33,13 @@ public class FavoritesFragment extends Fragment {
         }
     };
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_favorites, container, false);
 
         FoodActivity.bottomNavigationView.getMenu().getItem(2).setChecked(true);
+        ((FoodActivity) getActivity()).getSupportActionBar().setTitle("Favorite recipes");
 
         addBtn = rootView.findViewById(R.id.favorite_add);
         favoriteRecyclerView = rootView.findViewById(R.id.recyclerViewFavorite);
@@ -48,51 +48,48 @@ public class FavoritesFragment extends Fragment {
         favoriteRecyclerView.setLayoutManager(layoutManager);
         linearList = new ArrayList<>();
         updateList();
-
         addBtn.setOnClickListener(openRecipe);
-
-
-
 
         return rootView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateList();
+    }
+
     private void updateList() {
-        Cursor cursor = FoodActivity.mainDB.rawQuery("SELECT * FROM recipee",null);
-
-
+        Cursor cursor = FoodActivity.mainDB.rawQuery("SELECT * FROM recipee", null);
 
         int imageIndex = cursor.getColumnIndex("image");
-
-        int  titleIndex = cursor.getColumnIndex("title");
-
-        int  quantityIndex = cursor.getColumnIndex("quantity");
+        int titleIndex = cursor.getColumnIndex("title");
+        int quantityIndex = cursor.getColumnIndex("quantity");
         int caloriesIndex = cursor.getColumnIndex("calories");
-        int  dietLabelTrimIndex = cursor.getColumnIndex("dietLabel");
+        int dietLabelTrimIndex = cursor.getColumnIndex("dietLabel");
         int healthLabelTrimIndex = cursor.getColumnIndex("healthLabel");
         int ingredientsTrimIndex = cursor.getColumnIndex("ingredients");
         int totalTimeIndex = cursor.getColumnIndex("cookTime");
 
-        if (cursor != null)
+        linearList.clear();
+        if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
                     String image = cursor.getString(imageIndex);
 
                     String title = cursor.getString(titleIndex);
-                    int quantity = cursor.getInt(quantityIndex);//.replaceAll("\\D+","");
-                    int calories = cursor.getInt(caloriesIndex);//.replaceAll("\\D+","");;
-                    String dietLabelTrim =  cursor.getString(dietLabelTrimIndex);
+                    int quantity = cursor.getInt(quantityIndex);
+                    int calories = cursor.getInt(caloriesIndex);
+                    String dietLabelTrim = cursor.getString(dietLabelTrimIndex);
                     String healthLabelTrim = cursor.getString(healthLabelTrimIndex);
-                    String ingredientsTrim =  cursor.getString(ingredientsTrimIndex);
-                    int totalTime = cursor.getInt(totalTimeIndex);//.replaceAll("\\D+","");;
+                    String ingredientsTrim = cursor.getString(ingredientsTrimIndex);
+                    int totalTime = cursor.getInt(totalTimeIndex);
 
-//                    if(totalTime.isEmpty()){
-//                        totalTime = "0";
-//                    }
-
-                    linearList.add(new GridItem(image, title, quantity, calories,dietLabelTrim,healthLabelTrim,ingredientsTrim,totalTime));
+                    linearList.add(new GridItem(image, title, quantity, calories, dietLabelTrim, healthLabelTrim, ingredientsTrim, totalTime));
                 } while (cursor.moveToNext());
             }
             adapter = new Adapter(getActivity(), linearList, fragmentNum);
             favoriteRecyclerView.setAdapter(adapter);
+        }
     }
 }

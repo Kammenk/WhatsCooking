@@ -76,7 +76,6 @@ public class FavoritesFragment extends Fragment {
             if (cursor.moveToFirst()) {
                 do {
                     String image = cursor.getString(imageIndex);
-
                     String title = cursor.getString(titleIndex);
                     int quantity = cursor.getInt(quantityIndex);
                     int calories = cursor.getInt(caloriesIndex);

@@ -1,26 +1,19 @@
 package com.example.whatscooking;
 
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import androidx.fragment.app.Fragment;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -64,6 +57,8 @@ public class SearchFragment extends Fragment {
 
         ((FoodActivity) getActivity()).getSupportActionBar().setTitle("Search recipes");
 
+        searchView.setOnClickListener(v -> searchView.setIconified(false));
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -86,6 +81,7 @@ public class SearchFragment extends Fragment {
 
         return rootView;
     }
+
 
     public void generateList(String searchResult){
         Retrofit retrofit = new Retrofit.Builder()

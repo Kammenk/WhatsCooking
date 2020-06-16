@@ -40,9 +40,6 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        int cookTimeTopMinimum = 60;
-        int cookTimeBottomMinimum = 0;
-
         detailImage = findViewById(R.id.detailImage);
         detailTitle = findViewById(R.id.detailTitle);
         detailQuantity = findViewById(R.id.detailQuantity);
@@ -53,27 +50,11 @@ public class DetailActivity extends AppCompatActivity {
         detailTotalTime = findViewById(R.id.detailTotalTime);
 
         intent = getIntent();
-        String imageURL = intent.getStringExtra("Image");
-        Picasso.get().load(imageURL).fit().centerInside().into(detailImage);
-        detailTitle.setText(intent.getStringExtra("Title"));
-        detailQuantity.setText("Servings: " + intent.getIntExtra("Quantity", Integer.parseInt("0")));
-        detailCalories.setText("Calories: " + intent.getIntExtra("Calories", Integer.parseInt("0")));
-        detailDietLabel.setText("Diet Label: " + intent.getStringExtra("dietLabel"));
-        detailHealthLabel.setText("Health Label: " + intent.getStringExtra("healthLabel"));
-        detailIngredients.setText("Ingredients: " + intent.getStringExtra("ingredients"));
-        int cookTime = intent.getIntExtra("totalTime",0);
-        detailTotalTime.setText("Cook time: " + cookTime);
         getSupportActionBar().setTitle(intent.getStringExtra("Title"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorTitle)));
 
-        if (cookTime > cookTimeTopMinimum){
-            detailTotalTime.setText("Cook time: Over 60 minutes");
-        } else if(cookTime <= cookTimeBottomMinimum) {
-            detailTotalTime.setText("Cook time: Not measured");
-        } else {
-            detailTotalTime.setText("Cook time: " + cookTime + " minutes");
-        }
+        getData();
 
     }
 
@@ -88,7 +69,6 @@ public class DetailActivity extends AppCompatActivity {
             MenuInflater menuInflater = getMenuInflater();
             menuInflater.inflate(R.menu.add_menu,menu);
         }
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -113,8 +93,32 @@ public class DetailActivity extends AppCompatActivity {
             });
                 alertDialog.show();
         }
-
         return false;
+    }
+
+    private void getData(){
+
+        int cookTimeTopMinimum = 60;
+        int cookTimeBottomMinimum = 0;
+
+        String imageURL = intent.getStringExtra("Image");
+        Picasso.get().load(imageURL).fit().centerInside().into(detailImage);
+        detailTitle.setText(intent.getStringExtra("Title"));
+        detailQuantity.setText("Servings: " + intent.getIntExtra("Quantity", Integer.parseInt("0")));
+        detailCalories.setText("Calories: " + intent.getIntExtra("Calories", Integer.parseInt("0")));
+        detailDietLabel.setText("Diet Label: " + intent.getStringExtra("dietLabel"));
+        detailHealthLabel.setText("Health Label: " + intent.getStringExtra("healthLabel"));
+        detailIngredients.setText("Ingredients: " + intent.getStringExtra("ingredients"));
+        int cookTime = intent.getIntExtra("totalTime",0);
+        detailTotalTime.setText("Cook time: " + cookTime);
+
+        if (cookTime > cookTimeTopMinimum){
+            detailTotalTime.setText("Cook time: Over 60 minutes");
+        } else if(cookTime <= cookTimeBottomMinimum) {
+            detailTotalTime.setText("Cook time: Not measured");
+        } else {
+            detailTotalTime.setText("Cook time: " + cookTime + " minutes");
+        }
     }
 
     private void deleteRecipe(){
@@ -160,5 +164,6 @@ public class DetailActivity extends AppCompatActivity {
         mainDB.execSQL("INSERT INTO recipee (image, title , cookTime , quantity, calories, dietLabel , healthLabel , ingredients ) VALUES ('" + image.toString() + " ', '" +title + " ' , '" +cookTime +" ', '"+ quantity
                 +"', '"+calories +" ','"+ diet +" ', '"+health +" ','"+ ingredients +" ')");
         Toast.makeText(this,"Recipe saved successfully!",Toast.LENGTH_LONG).show();
+        onBackPressed();
     }
 }

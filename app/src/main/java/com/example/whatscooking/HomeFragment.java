@@ -1,37 +1,23 @@
 package com.example.whatscooking;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,10 +46,6 @@ public class HomeFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-
-//        homeToolbar = rootView.findViewById(R.id.toolbarHome);
-//        homeToolbar.setTitle(R.string.home_title);
-
         FoodActivity.bottomNavigationView.getMenu().getItem(0).setChecked(true);
         ((FoodActivity) getActivity()).getSupportActionBar().setTitle(R.string.home_title);
         fragmentNum = 1;
@@ -78,19 +60,11 @@ public class HomeFragment extends Fragment {
         lastQuery = sharedPreferences.getString("todaysQuery","");
         String todaysDate = getDate();
 
-
         if(todaysDate.compareTo(yesterdaysDate) != 0){
             generateList(foodGenerator());
-//            System.out.println("IF FIRST IF");
         } else {
             generateList(lastQuery);
-//            System.out.println("IN ELSE");
-//            HashSet<String> newRecipeList = (HashSet<String>) sharedPreferences.getStringSet("recipes",null);
-//            gridList = new ArrayList(newRecipeList);
-//            adapter = new Adapter(getActivity(), gridList,fragmentNum);
-//            recyclerView.setAdapter(adapter);
         }
-
         return rootView;
     }
 
@@ -134,11 +108,8 @@ public class HomeFragment extends Fragment {
                 }
                 sharedPreferences.edit().putString("todaysDate",currentDate).apply();
                 sharedPreferences.edit().putString("todaysQuery",query).apply();
-//                HashSet hashSet = new HashSet(gridList);
-//                sharedPreferences.edit().putStringSet("recipes",hashSet).apply();
                 adapter = new Adapter(getActivity(), gridList,fragmentNum);
                 recyclerView.setAdapter(adapter);
-
             }
 
             @Override
@@ -150,9 +121,9 @@ public class HomeFragment extends Fragment {
 
     public String foodGenerator(){
         Random rand = new Random();
-        String[] foodList = {"chicken","rice","bread","soup","pork","beef","turkey","ham","potato","salad"};
+        String[] foodList = {"chicken","rice","bread","soup","pork","beef","turkey","ham","potato","salad,crab,pizza,pasta,lasagna"};
 
-        return foodList[rand.nextInt(9)];
+        return foodList[rand.nextInt(14)];
     }
 }
 

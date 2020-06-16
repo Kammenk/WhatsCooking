@@ -21,7 +21,6 @@ public class GridItem {
         this.mIngredients = mIngredients;
         this.mTotalTime = mTotalTime;
 
-
     }
 
     public String getmImage() {

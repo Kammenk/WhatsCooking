@@ -137,7 +137,7 @@ public class HomeFragment extends Fragment {
     //Returns a random string/keyword that is used in the api call
     public String foodGenerator(){
         Random rand = new Random();
-        String[] foodList = {"chicken","rice","bread","soup","pork","beef","turkey","ham","potato","salad,crab,pizza,pasta,lasagna"};
+        String[] foodList = {"chicken","rice","bread","soup","pork","beef","turkey","ham","potato","salad","crab","pizza","pasta","lasagna"};
 
         return foodList[rand.nextInt(14)];
     }

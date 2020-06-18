@@ -56,8 +56,7 @@ public class FavoritesFragment extends Fragment {
         layoutManager =  new LinearLayoutManager(getActivity());
         favoriteRecyclerView.setLayoutManager(layoutManager);
         linearList = new ArrayList<>();
-        //Gets the recipes from the DB
-        updateList();
+
         addBtn.setOnClickListener(openRecipe);
 
         return rootView;
@@ -66,6 +65,7 @@ public class FavoritesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        //Gets the recipes from the DB
         updateList();
     }
 

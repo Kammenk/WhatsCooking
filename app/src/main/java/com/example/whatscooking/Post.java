@@ -2,9 +2,13 @@ package com.example.whatscooking;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
-import java.util.List;
+
+/*
+* Post contains the rows we are referencing in the api response
+* q = query we've used
+* hits contains all of the information about the recipe
+*/
 
 public class Post {
     @SerializedName("q")

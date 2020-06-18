@@ -20,6 +20,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/*
+* This fragment lets you search different recipes using keywords
+*/
+
 public class SearchFragment extends Fragment {
 
     private SearchView searchView;
@@ -42,10 +46,15 @@ public class SearchFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
+        //Initializing the actionbar
         searchView = rootView.findViewById(R.id.searchBar);
         FoodActivity.bottomNavigationView.getMenu().getItem(1).setChecked(true);
 
+        //fragmentNum = the number of the fragment - search fragment is the first and main fragment thus getting the number 2
+        //fragmentNum is used in the adapter when deciding what type of item we want to have in a specific fragment - grid item, list item etc.
         fragmentNum = 2;
+
+        //Recycler view initialization
         recyclerView = rootView.findViewById(R.id.recyclerViewSearch);
         layoutManager =  new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -57,24 +66,13 @@ public class SearchFragment extends Fragment {
 
         ((FoodActivity) getActivity()).getSupportActionBar().setTitle("Search recipes");
 
+        //Making the whole searchview clickable and not only the magnifying glass
         searchView.setOnClickListener(v -> searchView.setIconified(false));
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                String searchQuery = searchView.getQuery().toString();
+        //Generating a new recipe list with the query we've used in the search view
+        searchView.setOnQueryTextListener(queryTextListener);
 
-                generateList(searchQuery);
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
+        //Removing the "No resulst found" text view when clicking on the search view
         searchView.setOnSearchClickListener(v -> {
             noResultText.setVisibility(View.GONE);
         });
@@ -82,7 +80,22 @@ public class SearchFragment extends Fragment {
         return rootView;
     }
 
+    private SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            String searchQuery = searchView.getQuery().toString();
 
+            generateList(searchQuery);
+
+            return false;
+        }
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            return false;
+        }
+    };
+
+    //Using the Retrofit library we make an api call and extract a couple of the fields of the response
     public void generateList(String searchResult){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -121,14 +134,11 @@ public class SearchFragment extends Fragment {
                 }
                 adapter = new Adapter(getActivity(), linearList,fragmentNum);
                 recyclerView.setAdapter(adapter);
-
             }
-
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
                 Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT);
             }
         });
     }
-
 }

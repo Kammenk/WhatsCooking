@@ -3,6 +3,10 @@ package com.example.whatscooking;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/*
+*
+*/
+
 public class Hit {
 
     @SerializedName("recipe")

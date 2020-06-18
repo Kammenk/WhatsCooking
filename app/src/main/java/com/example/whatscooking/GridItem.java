@@ -1,5 +1,9 @@
 package com.example.whatscooking;
 
+/*
+* GridItem holds the information we receive from the api call
+*/
+
 public class GridItem {
 
     private String mImage;

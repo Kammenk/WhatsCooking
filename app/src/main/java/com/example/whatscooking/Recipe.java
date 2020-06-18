@@ -2,8 +2,12 @@ package com.example.whatscooking;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
+
+/*
+* Recipe is what we find in "hits"(check Post.java)
+* the recipe list contains the fields we want to extract for the relevant recipe
+*/
 
 public class Recipe {
 

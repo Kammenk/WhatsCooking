@@ -2,13 +2,16 @@ package com.example.whatscooking;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+/*
+* AddActivity is where we can add a custom recipe and save it
+*/
 
 public class AddActivity extends AppCompatActivity {
 
@@ -17,11 +20,13 @@ public class AddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
+        //Initializing actionbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Your recipe...");
 
     }
 
+    //If the back icon is clicked we go to the previous activity
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
@@ -33,6 +38,8 @@ public class AddActivity extends AppCompatActivity {
         return false;
     }
 
+    //Taking all the information from the field and saving it in a new recipe
+    //If some of the field are empty we add sample data
     public void addRecipe(View view){
 
         EditText image = findViewById(R.id.recipeImage);

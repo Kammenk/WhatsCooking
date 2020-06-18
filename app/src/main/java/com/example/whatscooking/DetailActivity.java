@@ -2,26 +2,25 @@ package com.example.whatscooking;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+/*
+* In this activity we can find a more detailed information about the recipe we've selected
+* It also offers us the ability to save or delete a recipe from our favorites
+*/
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -50,18 +49,19 @@ public class DetailActivity extends AppCompatActivity {
         detailTotalTime = findViewById(R.id.detailTotalTime);
 
         intent = getIntent();
+
+        //Initializing action bar
         getSupportActionBar().setTitle(intent.getStringExtra("Title"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorTitle)));
 
+        //Getting the full information about the recipe
         getData();
-
     }
 
-
+    //Depending on the state of the recipe we enable the save or delete button
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         if(checkIfSaved()){
             MenuInflater menuInflater = getMenuInflater();
             menuInflater.inflate(R.menu.remove_menu,menu);
@@ -72,6 +72,9 @@ public class DetailActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    //Menu navigation
+    //If we decide to delete the recipe an alert dialog is prompted and
+    //we can decide if we really want to proceed with deleting the recipe
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
@@ -96,6 +99,7 @@ public class DetailActivity extends AppCompatActivity {
         return false;
     }
 
+    //Getting the data about the recipe from the intent we passed on
     private void getData(){
 
         int cookTimeTopMinimum = 60;
@@ -121,12 +125,14 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    //Deletes the recipe from the DB and goes back to the previous activity
     private void deleteRecipe(){
         FoodActivity.mainDB.execSQL("DELETE FROM recipee WHERE title = '" + detailTitle.getText().toString() + "'");
         Toast.makeText(this,"Recipe deleted!",Toast.LENGTH_SHORT);
         onBackPressed();
     }
 
+    //Checking if the the recipe we've clicked on has already been saved in the DB
     private boolean checkIfSaved() {
         Cursor cursor = FoodActivity.mainDB.rawQuery("SELECT * FROM recipee", null);
 
@@ -149,6 +155,7 @@ public class DetailActivity extends AppCompatActivity {
         return false;
     }
 
+    //Saves the recipe to the DB and goes back to the previous activity
     void saveRecipe(){
 
         SQLiteDatabase mainDB = FoodActivity.mainDB;

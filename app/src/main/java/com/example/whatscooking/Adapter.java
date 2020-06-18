@@ -2,25 +2,19 @@ package com.example.whatscooking;
 
 import android.content.Context;
 import android.content.Intent;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
+
+/*
+* The adapter is responsible for populating the recycler views used all over the app
+*/
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
@@ -35,6 +29,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         mFragmentNum = fragmentNum;
     }
 
+    //Depending on the fragment we come from we decide which type of item we should inflate and use
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,12 +42,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             view = LayoutInflater.from(mContext).inflate(R.layout.favorite_item, parent, false);
         }
 
-        System.out.println("FRAGMENT NUM: " + mFragmentNum);
+        //When either of the items is clicked it takes you to a new activity called DetailActivity when we can see more information about the recipe
         ViewHolder viewHolder = new ViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("CLICKED: " + viewHolder.getAdapterPosition());
+
                 Intent intent = new Intent(view.getContext(),DetailActivity.class);
                 intent.putExtra("Image",mGridList.get(viewHolder.getAdapterPosition()).getmImage());
                 intent.putExtra("Title",mGridList.get(viewHolder.getAdapterPosition()).getmTitle());
@@ -107,7 +102,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public int getItemCount() {
         return mGridList.size();
     }
-
+    //Assigning the relevant text views to the variables
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mGridImage;
         TextView mGridTitle;

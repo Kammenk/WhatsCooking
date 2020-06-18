@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -15,6 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+
+/*
+* This fragment is used to store the recipes which have been marked as favorite
+* The favorite recipes are extracted from the DB and populated in the fragment
+*/
 
 public class FavoritesFragment extends Fragment {
 
@@ -25,6 +29,7 @@ public class FavoritesFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     private int fragmentNum;
 
+    //Takes you to the activity where you can add your custom recipe
     private View.OnClickListener openRecipe = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -38,15 +43,20 @@ public class FavoritesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_favorites, container, false);
 
+        //Initializing the actionbar
         FoodActivity.bottomNavigationView.getMenu().getItem(2).setChecked(true);
         ((FoodActivity) getActivity()).getSupportActionBar().setTitle("Favorite recipes");
 
         addBtn = rootView.findViewById(R.id.favorite_add);
         favoriteRecyclerView = rootView.findViewById(R.id.recyclerViewFavorite);
+
+        //fragmentNum = the number of the fragment - favorite fragment is the first and main fragment thus getting the number 3
+        //fragmentNum is used in the adapter when deciding what type of item we want to have in a specific fragment - grid item, list item etc.
         fragmentNum = 3;
         layoutManager =  new LinearLayoutManager(getActivity());
         favoriteRecyclerView.setLayoutManager(layoutManager);
         linearList = new ArrayList<>();
+        //Gets the recipes from the DB
         updateList();
         addBtn.setOnClickListener(openRecipe);
 
@@ -59,6 +69,7 @@ public class FavoritesFragment extends Fragment {
         updateList();
     }
 
+    //Gets all results from the DB and puts them in a new linear List
     private void updateList() {
         Cursor cursor = FoodActivity.mainDB.rawQuery("SELECT * FROM recipee", null);
 

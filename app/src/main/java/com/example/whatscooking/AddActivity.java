@@ -53,21 +53,24 @@ public class AddActivity extends AppCompatActivity {
 
         String dbImage = image.getText().toString().isEmpty() ? "https://images.pexels.com/photos/708488/pexels-photo-708488.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" : image.getText().toString();
         String dbTitle = title.getText().toString();
-        int dbCookTime = Integer.parseInt(cookTime.getText().toString());
-        int dbQuantity = Integer.parseInt(quantity.getText().toString());
-        int dbCalories = Integer.parseInt(calories.getText().toString());
+        int dbCookTime = Integer.parseInt(cookTime.getText().toString().isEmpty() ? "0" : cookTime.getText().toString()) ;
+        int dbQuantity = Integer.parseInt(quantity.getText().toString().isEmpty() ? "0" : cookTime.getText().toString());
+        int dbCalories = Integer.parseInt(calories.getText().toString().isEmpty() ? "0" : cookTime.getText().toString());
         String dbDiet = dietLabels.getText().toString().isEmpty() ? "None" : dietLabels.getText().toString();
         String dbHealth = healthLabels.getText().toString().isEmpty() ? "None" : healthLabels.getText().toString();
         String dbIngredients = ingredients.getText().toString().isEmpty() ? "None" : ingredients.getText().toString();
 
-        if (dbTitle.isEmpty()){
-            Toast.makeText(this,"Please fill the necessary fields",Toast.LENGTH_LONG);
-        } else {
-            SQLiteDatabase mainDB = FoodActivity.mainDB;
-            mainDB.execSQL("INSERT INTO recipee (image, title , cookTime , quantity, calories, dietLabel , healthLabel , ingredients ) VALUES ('" + dbImage.toString() + " ', '" + dbTitle + " ' , '" + dbCookTime +" ', '"+ dbQuantity
-                    +"', '" + dbCalories +" ','"+ dbDiet +" ', '" + dbHealth +" ','" + dbIngredients +" ')");
-            Toast.makeText(this,"Recipe saved successfully!",Toast.LENGTH_LONG).show();
-            onBackPressed();
+        if (dbTitle.isEmpty() || dbCookTime == 0 || dbQuantity == 0){
+            Toast.makeText(this,"Please fill the necessary fields *",Toast.LENGTH_LONG).show();
+            return;
         }
+        if (dbCalories == 0){
+            dbCalories = 200;
+        }
+        SQLiteDatabase mainDB = FoodActivity.mainDB;
+        mainDB.execSQL("INSERT INTO recipee (image, title , cookTime , quantity, calories, dietLabel , healthLabel , ingredients ) VALUES ('" + dbImage.toString() + " ', '" + dbTitle + " ' , '" + dbCookTime +" ', '"+ dbQuantity
+                +"', '" + dbCalories +" ','"+ dbDiet +" ', '" + dbHealth +" ','" + dbIngredients +" ')");
+        Toast.makeText(this,"Recipe saved successfully!",Toast.LENGTH_LONG).show();
+        onBackPressed();
     }
 }

@@ -50,9 +50,10 @@ public class FavoritesFragment extends Fragment {
         addBtn = rootView.findViewById(R.id.favorite_add);
         favoriteRecyclerView = rootView.findViewById(R.id.recyclerViewFavorite);
 
-        //fragmentNum = the number of the fragment - favorite fragment is the first and main fragment thus getting the number 3
+        //fragmentNum = the number of the fragment - favorite fragment is the third fragment thus getting the number 3
         //fragmentNum is used in the adapter when deciding what type of item we want to have in a specific fragment - grid item, list item etc.
         fragmentNum = 3;
+
         layoutManager =  new LinearLayoutManager(getActivity());
         favoriteRecyclerView.setLayoutManager(layoutManager);
         linearList = new ArrayList<>();

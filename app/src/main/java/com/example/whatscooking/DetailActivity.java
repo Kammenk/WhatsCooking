@@ -33,6 +33,10 @@ public class DetailActivity extends AppCompatActivity {
     TextView detailIngredients;
     TextView detailTotalTime;
     Intent intent;
+    MenuInflater menuInflater;
+    MenuItem favoriteItem;
+    MenuItem deleteItem;
+    Menu wholeMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,7 @@ public class DetailActivity extends AppCompatActivity {
         detailTotalTime = findViewById(R.id.detailTotalTime);
 
         intent = getIntent();
+        menuInflater = getMenuInflater();
 
         //Initializing action bar
         getSupportActionBar().setTitle(intent.getStringExtra("Title"));
@@ -62,11 +67,12 @@ public class DetailActivity extends AppCompatActivity {
     //Depending on the state of the recipe we enable the save or delete button
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        wholeMenu = menu;
+        favoriteItem = menu.findItem(R.menu.add_menu);
+        deleteItem = menu.findItem(R.menu.remove_menu);
         if(checkIfSaved()){
-            MenuInflater menuInflater = getMenuInflater();
             menuInflater.inflate(R.menu.remove_menu,menu);
         } else {
-            MenuInflater menuInflater = getMenuInflater();
             menuInflater.inflate(R.menu.add_menu,menu);
         }
         return super.onCreateOptionsMenu(menu);
@@ -80,21 +86,22 @@ public class DetailActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         if(item.getItemId() == R.id.addBtn){
+            wholeMenu.removeItem(item.getItemId());
             saveRecipe();
             return true;
         } else if (item.getItemId() == android.R.id.home){
             onBackPressed();
             return true;
         } else if (item.getItemId() == R.id.removeRecipe){
-            System.out.println("CLICKED");
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
             alertDialog.setTitle("Are you sure?")
                     .setMessage("Do you really want to delete your recipe?")
                     .setPositiveButton("Yes", (dialog, which) -> deleteRecipe())
                     .setNegativeButton("No", (dialog, which) -> {
-                return;
+
             });
                 alertDialog.show();
+                wholeMenu.removeItem(item.getItemId());
         }
         return false;
     }
@@ -107,7 +114,7 @@ public class DetailActivity extends AppCompatActivity {
 
         String imageURL = intent.getStringExtra("Image");
         Picasso.get().load(imageURL).fit().centerInside().into(detailImage);
-        detailTitle.setText(intent.getStringExtra("Title"));
+        detailTitle.setText(intent.getStringExtra("Title").trim());
         detailQuantity.setText("Servings: " + intent.getIntExtra("Quantity", Integer.parseInt("0")));
         detailCalories.setText("Calories: " + intent.getIntExtra("Calories", Integer.parseInt("0")));
         detailDietLabel.setText("Diet Label: " + intent.getStringExtra("dietLabel"));
@@ -127,9 +134,9 @@ public class DetailActivity extends AppCompatActivity {
 
     //Deletes the recipe from the DB and goes back to the previous activity
     private void deleteRecipe(){
-        FoodActivity.mainDB.execSQL("DELETE FROM recipee WHERE title = '" + detailTitle.getText().toString() + "'");
-        Toast.makeText(this,"Recipe deleted!",Toast.LENGTH_SHORT);
-        onBackPressed();
+        FoodActivity.mainDB.execSQL("DELETE FROM recipee WHERE title = '" + detailTitle.getText().toString() + " '");
+        menuInflater.inflate(R.menu.add_menu,wholeMenu);
+        Toast.makeText(this,"Recipe deleted!",Toast.LENGTH_SHORT).show();
     }
 
     //Checking if the the recipe we've clicked on has already been saved in the DB
@@ -142,11 +149,7 @@ public class DetailActivity extends AppCompatActivity {
             if (cursor.moveToFirst()) {
                 do {
                     String title = cursor.getString(titleIndex);
-                    System.out.println("TITLE: " + title);
-                    System.out.println("GETTEXT: " + detailTitle.getText().toString());
-                    System.out.println("equals: " + title.trim().equals(detailTitle.getText().toString().trim()));
                     if (title.trim().equals(detailTitle.getText().toString().trim())) {
-                        Toast.makeText(this, "Recipe found!", Toast.LENGTH_SHORT);
                         return true;
                     }
                 } while (cursor.moveToNext());
@@ -157,7 +160,6 @@ public class DetailActivity extends AppCompatActivity {
 
     //Saves the recipe to the DB and goes back to the previous activity
     void saveRecipe(){
-
         SQLiteDatabase mainDB = FoodActivity.mainDB;
 
         String image = intent.getStringExtra("Image");
@@ -168,9 +170,10 @@ public class DetailActivity extends AppCompatActivity {
         String diet = intent.getStringExtra("dietLabel");
         String health = intent.getStringExtra("healthLabel");
         String ingredients = intent.getStringExtra("ingredients");
-        mainDB.execSQL("INSERT INTO recipee (image, title , cookTime , quantity, calories, dietLabel , healthLabel , ingredients ) VALUES ('" + image.toString() + " ', '" +title + " ' , '" +cookTime +" ', '"+ quantity
-                +"', '"+calories +" ','"+ diet +" ', '"+health +" ','"+ ingredients +" ')");
-        Toast.makeText(this,"Recipe saved successfully!",Toast.LENGTH_LONG).show();
-        onBackPressed();
+
+        mainDB.execSQL("INSERT INTO recipee (image, title , cookTime , quantity, calories, dietLabel , healthLabel , ingredients ) VALUES ('" +image.toString()+ " ', '" +title.trim()+ " ' , " +
+                "'" +cookTime+" ', '"+quantity+"', '"+calories+" ','"+diet+" ', '"+health+" ','"+ingredients+" ')");
+        menuInflater.inflate(R.menu.remove_menu,wholeMenu);
+        Toast.makeText(this,"Recipe saved successfully!",Toast.LENGTH_SHORT).show();
     }
 }

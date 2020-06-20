@@ -58,6 +58,7 @@ public class HomeFragment extends Fragment {
         //fragmentNum = the number of the fragment - home fragment is the first and main fragment thus getting the number 1
         //fragmentNum is used in the adapter when deciding what type of item we want to have in a specific fragment - grid item, list item etc.
         fragmentNum = 1;
+
         //Recycler view initialization
         recyclerView = rootView.findViewById(R.id.recyclerView);
         layoutManager =  new GridLayoutManager(getActivity(),2,GridLayoutManager.VERTICAL,false);
@@ -110,7 +111,7 @@ public class HomeFragment extends Fragment {
 
                     query = response.body().getQ();
                     String image = children.get(i).getRecipe().getImage();
-                    String title = children.get(i).getRecipe().getLabel();
+                    String title = children.get(i).getRecipe().getLabel().trim();
                     int  quantity = children.get(i).getRecipe().getYield().intValue();
                     int calories = children.get(i).getRecipe().getCalories().intValue();
                     List<String> dietLabel = children.get(i).getRecipe().getDietLabels();
@@ -120,6 +121,7 @@ public class HomeFragment extends Fragment {
                     List<String> ingredients = children.get(i).getRecipe().getIngredientLines();
                     String ingredientsTrim = ingredients.toString().replaceAll("[\\[\\]\"]", "").trim().isEmpty() ? "None" : ingredients.toString().replaceAll("[\\[\\]\"]", "").trim();
                     int totalTime = children.get(i).getRecipe().getTotalTime().intValue();
+
                     gridList.add(new GridItem(image, title, quantity, calories,dietLabelTrim,healthLabelTrim,ingredientsTrim,totalTime));
                 }
                 sharedPreferences.edit().putString("todaysDate",currentDate).apply();

@@ -47,10 +47,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(view.getContext(),DetailActivity.class);
                 intent.putExtra("Image",mGridList.get(viewHolder.getAdapterPosition()).getmImage());
-                intent.putExtra("Title",mGridList.get(viewHolder.getAdapterPosition()).getmTitle());
+                intent.putExtra("Title",mGridList.get(viewHolder.getAdapterPosition()).getmTitle().trim());
                 intent.putExtra("Quantity",mGridList.get(viewHolder.getAdapterPosition()).getmQuantity());
                 intent.putExtra("Calories",mGridList.get(viewHolder.getAdapterPosition()).getmCalories());
                 intent.putExtra("dietLabel",mGridList.get(viewHolder.getAdapterPosition()).getmDietLabel());
@@ -71,8 +70,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         GridItem currentItem = mGridList.get(position);
 
         String imageUrl = currentItem.getmImage();
-        System.out.println("IMAGEURL  " + imageUrl);
-        String title = currentItem.getmTitle();
+        String title = currentItem.getmTitle().trim();
         int quantity = currentItem.getmQuantity();
         int calories = currentItem.getmCalories();
         String dietLabel = currentItem.getmDietLabel();
@@ -80,7 +78,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         String ingredients = currentItem.getmIngredients();
         int totalTime = currentItem.getmTotalTime();
 
-        holder.mGridTitle.setText(title);
+        holder.mGridTitle.setText(title.trim());
         holder.mGridQuantity.setText("Servings: " + quantity);
         holder.mGridCalories.setText("Calories: " + calories);
         holder.mGridDietLabel.setText("Diet labels: " + dietLabel);
@@ -94,7 +92,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         } else {
             holder.mGridTotalTime.setText("Cook time: " + totalTime + " minutes");
         }
-
         Picasso.get().load(imageUrl).fit().centerInside().into(holder.mGridImage);
     }
 
@@ -123,7 +120,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             mGridHealthLabel = itemView.findViewById(R.id.gridHealthLabel);
             mGridIngredients = itemView.findViewById(R.id.gridIngredients);
             mGridTotalTime = itemView.findViewById(R.id.gridTotalTime);
-
         }
     }
 }

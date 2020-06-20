@@ -71,5 +71,4 @@ public class FoodActivity extends AppCompatActivity {
                 selectedFragment).addToBackStack(selectedFragment.getTag()).commit();
         return true;
     };
-
 }

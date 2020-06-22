@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment {
 
         //Initializing the actionbar
         FoodActivity.bottomNavigationView.getMenu().getItem(0).setChecked(true);
-        ((FoodActivity) getActivity()).getSupportActionBar().setTitle(R.string.home_title);
+        ((FoodActivity) getActivity()).getSupportActionBar().hide();//.setTitle(R.string.home_title);
 
         //fragmentNum = the number of the fragment - home fragment is the first and main fragment thus getting the number 1
         //fragmentNum is used in the adapter when deciding what type of item we want to have in a specific fragment - grid item, list item etc.

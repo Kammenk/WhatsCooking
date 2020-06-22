@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import android.app.FragmentManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,6 +22,9 @@ public class FoodActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food);
+
+        Drawable d=getResources().getDrawable(R.drawable.toolbarpicthree);
+        getSupportActionBar().setBackgroundDrawable(d);
 
         //Creates a database
         mainDB = this.openOrCreateDatabase("Recipes",MODE_PRIVATE,null);

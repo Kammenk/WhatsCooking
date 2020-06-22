@@ -1,9 +1,11 @@
 package com.example.whatscooking;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +30,7 @@ public class SearchFragment extends Fragment {
 
     private SearchView searchView;
     private TextView noResultText;
+    private ImageView noResultImage;
     private String appID = "c2f84b80";
     private String appKey = "73d477d26f4d7944598ac6e6332c992a";
     private static final String BASE_URL = "https://api.edamam.com/";
@@ -37,6 +40,7 @@ public class SearchFragment extends Fragment {
     private ArrayList<GridItem> linearList;
     RecyclerView.LayoutManager layoutManager;
     private int fragmentNum;
+    ArrayList<Hit> children;
 
     com.google.android.material.bottomnavigation.BottomNavigationView bottomNavigationView;
 
@@ -62,8 +66,12 @@ public class SearchFragment extends Fragment {
         adapter = new Adapter(getActivity(), linearList, fragmentNum);
 
         noResultText = rootView.findViewById(R.id.noResultText);
+        noResultImage = rootView.findViewById(R.id.imageSearch);
         bottomNavigationView = rootView.findViewById(R.id.bot_nav);
 
+        ((FoodActivity) getActivity()).getSupportActionBar().show();
+        Drawable d=getResources().getDrawable(R.drawable.toolbarpicthree);
+        ((FoodActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(d);
         ((FoodActivity) getActivity()).getSupportActionBar().setTitle("Search recipes");
 
         //Making the whole searchview clickable and not only the magnifying glass
@@ -75,6 +83,17 @@ public class SearchFragment extends Fragment {
         //Removing the "No resulst found" text view when clicking on the search view
         searchView.setOnSearchClickListener(v -> {
             noResultText.setVisibility(View.GONE);
+            noResultImage.setVisibility(View.GONE);
+        });
+
+        searchView.setOnCloseListener(() -> {
+            if(children != null){
+                return false;
+            } else{
+                noResultText.setVisibility(View.VISIBLE);
+                noResultImage.setVisibility(View.VISIBLE);
+                return false;
+            }
         });
 
         return rootView;
@@ -109,10 +128,10 @@ public class SearchFragment extends Fragment {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
                 String query = null;
-                ArrayList<Hit> children = response.body().getHits();
+                children = response.body().getHits();
                 if(response.body() == null){
                     noResultText.setVisibility(View.VISIBLE);
-                    Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT);
+                    Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 for (int i = 0; i < children.size(); i++) {

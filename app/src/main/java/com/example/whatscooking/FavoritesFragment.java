@@ -45,6 +45,7 @@ public class FavoritesFragment extends Fragment {
 
         //Initializing the actionbar
         FoodActivity.bottomNavigationView.getMenu().getItem(2).setChecked(true);
+        ((FoodActivity) getActivity()).getSupportActionBar().show();
         ((FoodActivity) getActivity()).getSupportActionBar().setTitle("Favorite recipes");
 
         addBtn = rootView.findViewById(R.id.favorite_add);

@@ -2,5 +2,5 @@
     <string name="app_name">WhatsCooking</string>
     <string name="home_title">Today\'s recommendations...</string>
     <string name="searchBarHint">Look for recipes</string>
-    <string name="noResultText">No results found.</string>
+    <string name="noResultText">Try looking for something like fish, chicken, eggs.</string>
 </resources>

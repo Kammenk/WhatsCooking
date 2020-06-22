@@ -134,6 +134,7 @@ public class SearchFragment extends Fragment {
                     Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                linearList.clear();
                 for (int i = 0; i < children.size(); i++) {
 
                     query = response.body().getQ();

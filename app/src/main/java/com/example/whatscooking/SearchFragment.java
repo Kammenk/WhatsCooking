@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +35,12 @@ public class SearchFragment extends Fragment {
     private String appID = "c2f84b80";
     private String appKey = "73d477d26f4d7944598ac6e6332c992a";
     private static final String BASE_URL = "https://api.edamam.com/";
+
+    TextView carouselItemOne;
+    TextView carouselItemTwo;
+    TextView carouselItemThree;
+    TextView carouselItemFour;
+    TextView carouselItemFive;
 
     private RecyclerView recyclerView;
     private Adapter adapter;
@@ -89,16 +96,52 @@ public class SearchFragment extends Fragment {
         searchView.setOnCloseListener(() -> {
             if(children != null){
                 return false;
-            } else{
+            } else {
                 noResultText.setVisibility(View.VISIBLE);
                 noResultImage.setVisibility(View.VISIBLE);
                 return false;
             }
         });
 
+        carouselItemOne = rootView.findViewById(R.id.carouselTitleOne);
+        carouselItemTwo = rootView.findViewById(R.id.carouselTitleTwo);
+        carouselItemThree = rootView.findViewById(R.id.carouselTitleThree);
+        carouselItemFour = rootView.findViewById(R.id.carouselTitleFour);
+        carouselItemFive = rootView.findViewById(R.id.carouselTitleFive);
+
+        carouselItemOne.setOnClickListener(carouselOnClickListener);
+        carouselItemTwo.setOnClickListener(carouselOnClickListener);
+        carouselItemThree.setOnClickListener(carouselOnClickListener);
+        carouselItemFour.setOnClickListener(carouselOnClickListener);
+        carouselItemFive.setOnClickListener(carouselOnClickListener);
+
         return rootView;
     }
 
+    //Generates a list of recipes when an item in the carousel is clicked
+    private TextView.OnClickListener carouselOnClickListener = v -> {
+        noResultText.setVisibility(View.GONE);
+        noResultImage.setVisibility(View.GONE);
+        switch (v.getId()){
+            case R.id.carouselTitleOne:
+                generateList(carouselItemOne.getText().toString().toLowerCase());
+                break;
+            case R.id.carouselTitleTwo:
+                generateList(carouselItemTwo.getText().toString().toLowerCase());
+                break;
+            case R.id.carouselTitleThree:
+                generateList(carouselItemThree.getText().toString().toLowerCase());
+                break;
+            case R.id.carouselTitleFour:
+                generateList(carouselItemFour.getText().toString().toLowerCase());
+                break;
+            case R.id.carouselTitleFive:
+                generateList(carouselItemFive.getText().toString().toLowerCase());
+                break;
+            default:
+                break;
+        }
+    };
     private SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextSubmit(String query) {

@@ -7,12 +7,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /*
 * This activity is used to create a database where the recipes are stored.
 * It manages the traverse between fragments and also the bottom navigation menu.
 */
+
 public class FoodActivity extends AppCompatActivity {
 
     public static SQLiteDatabase mainDB;
@@ -29,6 +33,7 @@ public class FoodActivity extends AppCompatActivity {
         //Creates a database
         mainDB = this.openOrCreateDatabase("Recipes",MODE_PRIVATE,null);
         mainDB.execSQL("CREATE TABLE IF NOT EXISTS recipee (id INTEGER PRIMARY KEY, image VARCHAR, title VARCHAR, cookTime INT(3), quantity INT(3), calories INT(5), dietLabel VARCHAR, healthLabel VARCHAR, ingredients VARCHAR)");
+
 
         bottomNavigationView = findViewById(R.id.bot_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);

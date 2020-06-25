@@ -174,6 +174,6 @@ public class DetailActivity extends AppCompatActivity {
         mainDB.execSQL("INSERT INTO recipee (image, title , cookTime , quantity, calories, dietLabel , healthLabel , ingredients ) VALUES ('" +image.toString()+ " ', '" +title.trim()+ " ' , " +
                 "'" +cookTime+" ', '"+quantity+"', '"+calories+" ','"+diet+" ', '"+health+" ','"+ingredients+" ')");
         menuInflater.inflate(R.menu.remove_menu,wholeMenu);
-        Toast.makeText(this,"Recipe saved successfully!",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Recipe added to favorites!",Toast.LENGTH_SHORT).show();
     }
 }

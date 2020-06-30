@@ -2,23 +2,25 @@ package com.example.whatscooking;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+/*
+* In this activity we can find a more detailed information about the recipe we've selected
+* It also offers us the ability to save or delete a recipe from our favorites
+*/
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -31,16 +33,15 @@ public class DetailActivity extends AppCompatActivity {
     TextView detailIngredients;
     TextView detailTotalTime;
     Intent intent;
+    MenuInflater menuInflater;
+    MenuItem favoriteItem;
+    MenuItem deleteItem;
+    Menu wholeMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
-
-
-        int cookTimeTopMinimum = 60;
-        int cookTimeBottomMinimum = 0;
 
         detailImage = findViewById(R.id.detailImage);
         detailTitle = findViewById(R.id.detailTitle);
@@ -52,9 +53,68 @@ public class DetailActivity extends AppCompatActivity {
         detailTotalTime = findViewById(R.id.detailTotalTime);
 
         intent = getIntent();
+        menuInflater = getMenuInflater();
+
+        //Initializing action bar
+        getSupportActionBar().setTitle(intent.getStringExtra("Title"));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorTitle)));
+
+        //Getting the full information about the recipe
+        getData();
+    }
+
+    //Depending on the state of the recipe we enable the save or delete button
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        wholeMenu = menu;
+        favoriteItem = menu.findItem(R.menu.add_menu);
+        deleteItem = menu.findItem(R.menu.remove_menu);
+        if(checkIfSaved()){
+            menuInflater.inflate(R.menu.remove_menu,menu);
+        } else {
+            menuInflater.inflate(R.menu.add_menu,menu);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    //Menu navigation
+    //If we decide to delete the recipe an alert dialog is prompted and
+    //we can decide if we really want to proceed with deleting the recipe
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        if(item.getItemId() == R.id.addBtn){
+            wholeMenu.removeItem(item.getItemId());
+            saveRecipe();
+            return true;
+        } else if (item.getItemId() == android.R.id.home){
+            onBackPressed();
+            return true;
+        } else if (item.getItemId() == R.id.removeRecipe){
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+            alertDialog.setTitle("Are you sure?")
+                    .setMessage("Do you really want to delete your recipe?")
+                    .setPositiveButton("Yes", (dialog, which) -> deleteRecipe())
+                    .setNegativeButton("No", (dialog, which) -> {
+
+            });
+                alertDialog.show();
+                wholeMenu.removeItem(item.getItemId());
+        }
+        return false;
+    }
+
+    //Getting the data about the recipe from the intent we passed on
+    private void getData(){
+
+        int cookTimeTopMinimum = 60;
+        int cookTimeBottomMinimum = 0;
+
         String imageURL = intent.getStringExtra("Image");
         Picasso.get().load(imageURL).fit().centerInside().into(detailImage);
-        detailTitle.setText(intent.getStringExtra("Title"));
+        detailTitle.setText(intent.getStringExtra("Title").trim());
         detailQuantity.setText("Servings: " + intent.getIntExtra("Quantity", Integer.parseInt("0")));
         detailCalories.setText("Calories: " + intent.getIntExtra("Calories", Integer.parseInt("0")));
         detailDietLabel.setText("Diet Label: " + intent.getStringExtra("dietLabel"));
@@ -62,9 +122,6 @@ public class DetailActivity extends AppCompatActivity {
         detailIngredients.setText("Ingredients: " + intent.getStringExtra("ingredients"));
         int cookTime = intent.getIntExtra("totalTime",0);
         detailTotalTime.setText("Cook time: " + cookTime);
-        getSupportActionBar().setTitle(intent.getStringExtra("Title"));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorTitle)));
 
         if (cookTime > cookTimeTopMinimum){
             detailTotalTime.setText("Cook time: Over 60 minutes");
@@ -73,36 +130,36 @@ public class DetailActivity extends AppCompatActivity {
         } else {
             detailTotalTime.setText("Cook time: " + cookTime + " minutes");
         }
-
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.add_menu,menu);
-
-        return super.onCreateOptionsMenu(menu);
+    //Deletes the recipe from the DB and goes back to the previous activity
+    private void deleteRecipe(){
+        FoodActivity.mainDB.execSQL("DELETE FROM recipee WHERE title = '" + detailTitle.getText().toString() + " '");
+        menuInflater.inflate(R.menu.add_menu,wholeMenu);
+        Toast.makeText(this,"Recipe deleted!",Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        super.onOptionsItemSelected(item);
+    //Checking if the the recipe we've clicked on has already been saved in the DB
+    private boolean checkIfSaved() {
+        Cursor cursor = FoodActivity.mainDB.rawQuery("SELECT * FROM recipee", null);
 
-        if(item.getItemId() == R.id.addBtn){
-            saveRecipe();
-            return true;
-        } else if (item.getItemId() == android.R.id.home){
-            onBackPressed();
-            return true;
+        int titleIndex = cursor.getColumnIndex("title");
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    String title = cursor.getString(titleIndex);
+                    if (title.trim().equals(detailTitle.getText().toString().trim())) {
+                        return true;
+                    }
+                } while (cursor.moveToNext());
+            }
         }
-
         return false;
     }
 
+    //Saves the recipe to the DB and goes back to the previous activity
     void saveRecipe(){
-
         SQLiteDatabase mainDB = FoodActivity.mainDB;
 
         String image = intent.getStringExtra("Image");
@@ -113,8 +170,10 @@ public class DetailActivity extends AppCompatActivity {
         String diet = intent.getStringExtra("dietLabel");
         String health = intent.getStringExtra("healthLabel");
         String ingredients = intent.getStringExtra("ingredients");
-        mainDB.execSQL("INSERT INTO recipee (image, title , cookTime , quantity, calories, dietLabel , healthLabel , ingredients ) VALUES ('" + image.toString() + " ', '" +title + " ' , '" +cookTime +" ', '"+ quantity
-                +"', '"+calories +" ','"+ diet +" ', '"+health +" ','"+ ingredients +" ')");
-        Toast.makeText(this,"Recipe saved successfully!",Toast.LENGTH_LONG).show();
+
+        mainDB.execSQL("INSERT INTO recipee (image, title , cookTime , quantity, calories, dietLabel , healthLabel , ingredients ) VALUES ('" +image.toString()+ " ', '" +title.trim()+ " ' , " +
+                "'" +cookTime+" ', '"+quantity+"', '"+calories+" ','"+diet+" ', '"+health+" ','"+ingredients+" ')");
+        menuInflater.inflate(R.menu.remove_menu,wholeMenu);
+        Toast.makeText(this,"Recipe added to favorites!",Toast.LENGTH_SHORT).show();
     }
 }

@@ -1,5 +1,9 @@
 package com.example.whatscooking;
 
+/*
+* GridItem holds the information we receive from the api call
+*/
+
 public class GridItem {
 
     private String mImage;
@@ -20,7 +24,6 @@ public class GridItem {
         this.mHealthLabel = mHealthLabel;
         this.mIngredients = mIngredients;
         this.mTotalTime = mTotalTime;
-
 
     }
 

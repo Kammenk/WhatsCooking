@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    app:cardCornerRadius="8dp"
+    android:layout_margin="10dp">
+
+    <ImageView
+        android:id="@+id/carouselImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/toolbarpicone"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/carouselTitle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Pizza"
+        android:textSize="20sp"
+        android:textColor="@color/colorWhite"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="bottom"
+
+        android:layout_marginStart="5dp"/>
+
+
+</androidx.cardview.widget.CardView>

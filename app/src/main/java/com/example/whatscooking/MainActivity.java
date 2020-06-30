@@ -1,15 +1,17 @@
 package com.example.whatscooking;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.widget.ImageView;
-
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
+/*
+* This app calls an API in order to generate all sorts of recipe lists.
+* The recipes can be saved and stored in an SQLite DB and then retrieved from there in the "Favorites" section
+*/
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,11 +25,12 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         mainImageView = findViewById(R.id.mainImageView);
 
+        //Generating a random background picture from an array
         setRandomBackground();
+        //Moving to FoodActivity
         switchActivity();
 
     }
-
 
     public void switchActivity(){
         Timer timer = new Timer();

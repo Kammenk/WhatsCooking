@@ -16,7 +16,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="15dp"
-        android:onClick="addRecipe"/>
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewFavorite"
@@ -25,7 +25,5 @@
         android:scrollbars="vertical">
 
     </androidx.recyclerview.widget.RecyclerView>
-
-
 
 </RelativeLayout>

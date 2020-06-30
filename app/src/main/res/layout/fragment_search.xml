@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/searchFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorWhite">
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
 
     <SearchView
         android:id="@+id/searchBar"
@@ -20,45 +23,203 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Categories"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
+        android:textSize="30sp"
+        android:fontFamily="@font/roboto_condensed_bold"
+        android:textColor="@color/colorPrimary"
+        />
+
+    <HorizontalScrollView
+        android:id="@+id/scrView"
+        app:layout_constraintTop_toBottomOf="@id/searchBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        >
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbarSize="0dp"
+            >
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardOne"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                app:cardCornerRadius="8dp"
+                android:layout_margin="10dp"
+                >
+                <ImageView
+                    android:id="@+id/carouselImageOne"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/carouselpicone"
+                    android:scaleType="centerCrop"/>
+                <TextView
+                    android:id="@+id/carouselTitleOne"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Burger"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorWhite"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="bottom"
+                    android:layout_marginStart="5dp"
+                    />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                app:cardCornerRadius="8dp"
+                android:layout_margin="10dp"
+                >
+                <ImageView
+                    android:id="@+id/carouselImageTwo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/carouselpictwo"
+                    android:scaleType="centerCrop"/>
+                <TextView
+                    android:id="@+id/carouselTitleTwo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Rice"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorWhite"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="bottom"
+                    android:layout_marginStart="5dp"
+                    />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                app:cardCornerRadius="8dp"
+                android:layout_margin="10dp">
+                <ImageView
+                    android:id="@+id/carouselImageThree"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/carouselpicthree"
+                    android:scaleType="centerCrop"/>
+                <TextView
+                    android:id="@+id/carouselTitleThree"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Vegan"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorWhite"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="bottom"
+                    android:layout_marginStart="5dp"
+                    />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                app:cardCornerRadius="8dp"
+                android:layout_margin="10dp">
+                <ImageView
+                    android:id="@+id/carouselImageFour"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/carouselpicfour"
+                    android:scaleType="centerCrop"/>
+                <TextView
+                    android:id="@+id/carouselTitleFour"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Salad"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorWhite"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="bottom"
+                    android:layout_marginStart="5dp"
+                    />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                app:cardCornerRadius="8dp"
+                android:layout_margin="10dp">
+                <ImageView
+                    android:id="@+id/carouselImageFive"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/carouselpicfive"
+                    android:scaleType="centerCrop"/>
+                <TextView
+                    android:id="@+id/carouselTitleFive"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Italian"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorWhite"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="bottom"
+                    android:layout_marginStart="5dp"
+                    />
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <ImageView
+        android:id="@+id/imageSearch"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/ic_pizza"
+        android:layout_gravity="center_horizontal|center_vertical"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+    <TextView
         android:id="@+id/noResultText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/noResultText"
-        android:textSize="30sp"
+        android:textSize="20sp"
+        android:paddingHorizontal="25dp"
+        android:textAlignment="center"
+        android:fontFamily="@font/roboto_medium"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/imageSearch" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSearch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="55dp"
         android:scrollbars="vertical"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchBar">
+        app:layout_constraintTop_toBottomOf="@id/scrView">
 
     </androidx.recyclerview.widget.RecyclerView>
 
-<!--    <ListView-->
-<!--        android:id="@+id/listViewSearch"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_marginHorizontal="10dp"-->
-<!--        android:layout_marginTop="55dp"-->
-<!--        android:layout_marginBottom="5dp"-->
-<!--        android:divider="@color/appBGColor"-->
-<!--        android:dividerHeight="5dp"-->
-<!--        android:scrollbars="vertical"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/searchBar" />-->
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

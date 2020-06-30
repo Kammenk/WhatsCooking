@@ -91,9 +91,6 @@
             android:visibility="gone"
             />
 
-
-
-
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
